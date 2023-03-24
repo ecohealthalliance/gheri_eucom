@@ -12,7 +12,10 @@ knitr::opts_chunk$set(
   out.width = "100%"
 )
 ```
-
+# PROJECT DESCRIPTION
+  # put in quick blurb about project and what it is
+  # contacts: 
+  
 # Containerised R workflow template
 
 <!-- badges: start -->
