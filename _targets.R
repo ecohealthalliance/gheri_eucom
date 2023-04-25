@@ -14,11 +14,24 @@ for (f in list.files(here::here("R"), full.names = TRUE)) source (f)
 # Groups of targets ------------------------------------------------------------
 
 ## Data input
+
+
+# Read in World Population data 
+# WorldPop Population Counts: Population 2020
+# https://www.worldpop.org/geodata/summary?id=24777
+# downloaded manually and saved in raw_data
+# folder as "ppp_2020_1km_Aggregated.tif"
+
 data_input_targets <- tar_plan(
-  ## Example data input target/s; delete and replace with your own data input
-  ## targets
+  # Read in World Population data 
+  # WorldPop Population Counts: Population 2020
+  # https://www.worldpop.org/geodata/summary?id=24777
+  # downloaded manually and saved in raw_data
+  # folder as "ppp_2020_1km_Aggregated.tif"
+  targets::tar_target(name = world_pop, command = terra::rast(here("raw_data/ppp_2020_1km_Aggregated.tif")))
   
-  targets::tar_target("example_target",create_example_target(x = TRUE))
+  #Add admisntrative info abotu data soruces
+#  targets::tar_target(name = country_provinces, command = get_country_province()
 )
 
 
