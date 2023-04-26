@@ -9,4 +9,4 @@ outputs/
 !outputs/example_report.html
 data/
 !data/.gitkeep
-
+raw_data/

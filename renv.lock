@@ -73,10 +73,10 @@
     },
     "RcppArmadillo": {
       "Package": "RcppArmadillo",
-      "Version": "0.12.0.1.0",
+      "Version": "0.12.2.0.0",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "dee7cfd76b4c78bab84e09b74b6d471f",
+      "Hash": "39aed0e5fbb0b775a1752ad7813fc56c",
       "Requirements": [
         "Rcpp"
       ]
@@ -133,32 +133,6 @@
       "Hash": "9fe98599ca456d6552421db0d6772d8f",
       "Requirements": [
         "bit"
-      ]
-    },
-    "blastula": {
-      "Package": "blastula",
-      "Version": "0.3.3",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "3d27d96349f9e8bcbd259a5766c2c221",
-      "Requirements": [
-        "base64enc",
-        "commonmark",
-        "curl",
-        "digest",
-        "dplyr",
-        "fs",
-        "getPass",
-        "here",
-        "htmltools",
-        "httr",
-        "jsonlite",
-        "magrittr",
-        "mime",
-        "rlang",
-        "rmarkdown",
-        "stringr",
-        "uuid"
       ]
     },
     "blob": {
@@ -333,27 +307,6 @@
         "rlang"
       ]
     },
-    "containerTemplateUtils": {
-      "Package": "containerTemplateUtils",
-      "Version": "0.0.0.9000",
-      "Source": "GitHub",
-      "RemoteType": "github",
-      "RemoteHost": "api.github.com",
-      "RemoteUsername": "ecohealthalliance",
-      "RemoteRepo": "containerTemplateUtils",
-      "RemoteRef": "main",
-      "RemoteSha": "8da05c871ea3c5d85a2fd15789d9f727049465c5",
-      "Hash": "1ce5433f692bb67f206a540b5d30cc07",
-      "Requirements": [
-        "blastula",
-        "cli",
-        "gert",
-        "glue",
-        "mime",
-        "paws",
-        "purrr"
-      ]
-    },
     "cpp11": {
       "Package": "cpp11",
       "Version": "0.4.3",
@@ -496,14 +449,6 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "8b708f296afd9ae69f450f9640be8990",
-      "Requirements": []
-    },
-    "dotenv": {
-      "Package": "dotenv",
-      "Version": "1.0.3",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "7e1213a65b6190437c644a14ec814ef3",
       "Requirements": []
     },
     "downlit": {
@@ -787,16 +732,6 @@
         "rstudioapi",
         "sys",
         "zip"
-      ]
-    },
-    "getPass": {
-      "Package": "getPass",
-      "Version": "0.2-2",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "07a91f99e56951818ab911366db77700",
-      "Requirements": [
-        "rstudioapi"
       ]
     },
     "ggplot2": {
@@ -1125,29 +1060,6 @@
       "Repository": "CRAN",
       "Hash": "a4269a09a9b865579b2635c77e572374",
       "Requirements": []
-    },
-    "kableExtra": {
-      "Package": "kableExtra",
-      "Version": "1.3.4",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "49b625e6aabe4c5f091f5850aba8ff78",
-      "Requirements": [
-        "digest",
-        "glue",
-        "htmltools",
-        "knitr",
-        "magrittr",
-        "rmarkdown",
-        "rstudioapi",
-        "rvest",
-        "scales",
-        "stringr",
-        "svglite",
-        "viridisLite",
-        "webshot",
-        "xml2"
-      ]
     },
     "knitr": {
       "Package": "knitr",
@@ -2384,10 +2296,10 @@
     },
     "targets": {
       "Package": "targets",
-      "Version": "0.14.3",
+      "Version": "1.0.0",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "bf748746ce81f412fb06d30d6a2ddec7",
+      "Hash": "3f299989005cd3ccd101eb97623fd533",
       "Requirements": [
         "R6",
         "base64url",
@@ -2408,10 +2320,10 @@
     },
     "terra": {
       "Package": "terra",
-      "Version": "1.7-18",
+      "Version": "1.7-29",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "5db3d690ad42a1828d3bf9e063c98587",
+      "Hash": "89c24bf35c961e047df79dde2eb69224",
       "Requirements": [
         "Rcpp"
       ]
