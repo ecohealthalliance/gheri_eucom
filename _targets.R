@@ -138,7 +138,8 @@ data_processing_targets <- tar_plan(
   
   # 2.) Crop and mask data to Caucasus region
   targets::tar_target(name = pop_caucasus, command = crop_mask_raster(extent_caucasus, world_pop_data, caucasus_provinces)),
-  # I think this below code is cleaner (and it actually runs), but when I go to plot pop_caucasus2 I get an error. Is this
+  
+  # I think this below code (line 144) is cleaner (and it actually runs), but when I go to plot pop_caucasus2 I get an error. Is this
   # an issue that needs terra::wrap ?
   targets::tar_target(name = pop_caucasus2, command = crop_mask_raster(terra::wrap(get_caucasus_extent()), world_pop_data, caucasus_provinces)),
 )
