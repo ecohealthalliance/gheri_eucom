@@ -76,15 +76,15 @@ data_input_targets <- tar_plan(
   targets::tar_target(name = chicken_GLW_data, command = terra::wrap(terra::rast(here("raw_data/6_Ch_2015_Aw.tif")))),
   ### SHEEP (in folder as "6_Sh_2015_Aw.tif")
   targets::tar_target(name = sheep_GLW_data, command = terra::wrap(terra::rast(here("raw_data/6_Sh_2015_Aw.tif")))),
-  ### PIGS (in folder as "6_Pg_2015_Aw.tif")
+  ### PIG (in folder as "6_Pg_2015_Aw.tif")
   targets::tar_target(name = pig_GLW_data, command = terra::wrap(terra::rast(here("raw_data/6_Pg_2015_Aw.tif")))),
   ### HORSE (in folder as "6_Ho_2015_Aw.tif")
   targets::tar_target(name = horse_GLW_data, command = terra::wrap(terra::rast(here("raw_data/6_Ho_2015_Aw.tif")))),
-  ### GOATS (in folder as "6_Gt_2015_Aw.tif")
+  ### GOAT (in folder as "6_Gt_2015_Aw.tif")
   targets::tar_target(name = goat_GLW_data, command = terra::wrap(terra::rast(here("raw_data/6_Gt_2015_Aw.tif")))),
-  ### DUCKS (in folder as "6_Dk_2015_Aw.tif")
+  ### DUCK (in folder as "6_Dk_2015_Aw.tif")
   targets::tar_target(name = duck_GLW_data, command = terra::wrap(terra::rast(here("raw_data/6_Dk_2015_Aw.tif")))),
-  ### BUFFALOES (in folder as "6_Bf_2015_Aw.tif")
+  ### BUFFALO (in folder as "6_Bf_2015_Aw.tif")
   targets::tar_target(name = buffalo_GLW_data, command = terra::wrap(terra::rast(here("raw_data/6_Bf_2015_Aw.tif")))),
   ### CATTLE (in folder as "6_Ct_2015_Aw.tif")
   targets::tar_target(name = cattle_GLW_data, command = terra::wrap(terra::rast(here("raw_data/6_Ct_2015_Aw.tif")))),
@@ -137,8 +137,37 @@ data_processing_targets <- tar_plan(
  # targets::tar_target(name = extent_georgia, command = get_georgia_extent()),
   
   # 2.) Crop and mask raster data to Caucasus region
+  # Population data 
   targets::tar_target(name = pop_caucasus, command = terra::wrap(crop_mask_packedraster(get_caucasus_extent(), world_pop_data, caucasus_provinces))),
-  targets::tar_target(name = chicken_GLW_caucasus, command = terra::wrap(crop_mask_packedraster(get_caucasus_extent(), chicken_GLW_data, caucasus_provinces))),                                                  
+  # Landcover data
+  targets::tar_target(name = landcover_caucasus, command = terra::wrap(crop_mask_packedraster(get_caucasus_extent(), world_landcover_data, caucasus_provinces))),
+  # Elevation data -- currently not working and receiving an error
+  targets::tar_target(name = elevation_caucasus, command = terra::wrap(crop_mask_packedraster(get_caucasus_extent(), world_elevation_data, caucasus_provinces))),
+  # Chicken data (GLW)
+  targets::tar_target(name = chicken_caucasus_GLW, command = terra::wrap(crop_mask_packedraster(get_caucasus_extent(), chicken_GLW_data, caucasus_provinces))),                                                  
+  # Sheep data (GLW)
+  targets::tar_target(name = sheep_caucasus_GLW, command = terra::wrap(crop_mask_packedraster(get_caucasus_extent(), sheep_GLW_data, caucasus_provinces))),
+  # Pig data (GLW)
+  targets::tar_target(name = pig_caucasus_GLW, command = terra::wrap(crop_mask_packedraster(get_caucasus_extent(), pig_GLW_data, caucasus_provinces))),
+  # Horse data (GLW)
+  targets::tar_target(name = horse_caucasus_GLW, command = terra::wrap(crop_mask_packedraster(get_caucasus_extent(), horse_GLW_data, caucasus_provinces))),
+  # Goat data (GLW)
+  targets::tar_target(name = goat_caucasus_GLW, command = terra::wrap(crop_mask_packedraster(get_caucasus_extent(), goat_GLW_data, caucasus_provinces))),
+  # Duck data (GLW)
+  targets::tar_target(name = duck_caucasus_GLW, command = terra::wrap(crop_mask_packedraster(get_caucasus_extent(), duck_GLW_data, caucasus_provinces))),
+  # Buffalo data (GLW)
+  targets::tar_target(name = buffalo_caucasus_GLW, command = terra::wrap(crop_mask_packedraster(get_caucasus_extent(), buffalo_GLW_data, caucasus_provinces))),
+  # Cattle data (GLW)
+  targets::tar_target(name = cattle_caucasus_GLW, command = terra::wrap(crop_mask_packedraster(get_caucasus_extent(), cattle_GLW_data, caucasus_provinces))),
+  
+  # Human Footprint Index 2000 -- these need to be processed with a different extent (need different extent function)
+  targets::tar_target(name = HFI_2000_caucasus, command = terra::wrap(crop_mask_packedraster(get_caucasus_extent(), HFI_2000_data, caucasus_provinces))),
+  # Human Footprint Index 2008 -- these need to be processed with a different extent (need different extent function)
+  targets::tar_target(name = HFI_2008_caucasus, command = terra::wrap(crop_mask_packedraster(get_caucasus_extent(), HFI_2008_data, caucasus_provinces))),
+  # Human Footprint Index 2018 -- these need to be processed with a different extent (need different extent function)
+  targets::tar_target(name = HFI_2018_caucasus, command = terra::wrap(crop_mask_packedraster(get_caucasus_extent(), HFI_2018_data, caucasus_provinces))),
+  
+  
   
 )
 

@@ -1,12 +1,17 @@
-#' 
-#' Function to crop and mask raster to polygons of Caucasus countries
-#'
-#' @param 
+#' Function to crop and mask packedspatraster to polygons of Caucasus countries
 #'
 #'
-#' @return 
+#' @title crop_mask_packedraster
+
+#' @param spatextent spatextent object or function that outputs a spatextent
+#' @param packedspatraster packedspatraster object
+#' @param spdf spatialpolygonsdataframe object
+#'
+#' @return spatraster
 #'
 #' @examples
+#' crop_mask_packedraster(get_caucasus_extent(), world_pop_data, caucasus_provinces)
+#' Rather than using a function like "get_caucasus_extent()" you can also just use a spatraster object on its own
 #' 
 #' 
 crop_mask_packedraster <- function(spatextent, packedspatraster, spdf){
@@ -22,17 +27,4 @@ crop_mask_packedraster <- function(spatextent, packedspatraster, spdf){
   #packed_mask <- terra::wrap(mask_rast_crop)
   return(mask_rast_crop)
 }
-
-
-
-
-
-#test1 <- terra::rast(chicken_GLW_data)
-#test2 <- terra::crop(test1, extent_caucasus)
-
-
-#spatraster <- terra::rast(world_pop_data)
-#rast_crop <- crop(spatraster, extent_caucasus) # this is the screwy step
-
-
 

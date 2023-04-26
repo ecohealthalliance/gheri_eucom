@@ -1,13 +1,16 @@
-# Function to get state administrative boundaries for just one country
-# Data directly downloadable from rnaturalearth
-#' Title
-#'
+#' Function to get state/province-level administrative boundaries for any number of countries
+#' Data directly downloadable from rnaturalearth
+#' 
+#' 
+#' @title get_country_province
+
 #' @param country1 String name of country
 #'
 #' @return SpatialPolygonsDataFrame (Admn1)
 #'
 #' @examples
 #' get_country_province("Armenia")
+#' get_country_province(c("Armenia", "Azerbaijan", "Georgia"))
 #' 
 get_country_province <- function(country1) {
   
@@ -20,3 +23,4 @@ get_country_province <- function(country1) {
   cntry_states <- spdf_1[, col_order]
   return(cntry_states)
 }
+
