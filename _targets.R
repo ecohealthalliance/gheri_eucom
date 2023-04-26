@@ -130,14 +130,17 @@ data_input_targets <- tar_plan(
 ## Data processing
 data_processing_targets <- tar_plan(
   # 1.) Create extent for Caucasus region and each individual country
-  targets::tar_target(name = extent_caucasus, command = get_caucasus_extent()), #may need to terra::wrap() the extents?
-  targets::tar_target(name = extent_armenia, command = get_armenia_extent()),
-  targets::tar_target(name = extent_azerbaijan, command = get_azerbaijan_extent()),
-  targets::tar_target(name = extent_georgia, command = get_georgia_extent()),
+ # targets::tar_target(name = extent_caucasus, command = get_caucasus_extent()), # may need to terra::wrap() the extents?
+ # targets::tar_target(name = extent_armenia, command = get_armenia_extent()),
+ # targets::tar_target(name = extent_azerbaijan, command = get_azerbaijan_extent()),
+ # targets::tar_target(name = extent_georgia, command = get_georgia_extent()), #Don't think I need these lines anymore because I
+  # can directly use the get_caucasus_extent() function in my next crop_mask_raster targets below
   
   # 2.) Crop and mask data to Caucasus region
-  targets::tar_target(name = world_pop_caucasus, command = crop_mask_raster(extent_caucasus, world_pop_data, caucasus_provinces)),
-  targets::tar_target(name = chicken_GLW_caucasus, command = crop_mask_raster(extent_caucasus, chicken_GLW_data, caucasus_provinces)),
+  targets::tar_target(name = pop_caucasus, command = crop_mask_raster(extent_caucasus, world_pop_data, caucasus_provinces)),
+  # I think this below code is cleaner (and it actually runs), but when I go to plot pop_caucasus2 I get an error. Is this
+  # an issue that needs terra::wrap ?
+  targets::tar_target(name = pop_caucasus2, command = crop_mask_raster(terra::wrap(get_caucasus_extent()), world_pop_data, caucasus_provinces)),
 )
 
 
