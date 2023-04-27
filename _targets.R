@@ -122,6 +122,14 @@ data_input_targets <- tar_plan(
   targets::tar_target(name = protect_area_arm_data0, command = st_read(here("raw_data/Protected_areas_armenia/WDPA_WDOECM_Mar2023_Public_ARM_shp_0/WDPA_WDOECM_Mar2023_Public_ARM_shp-polygons.shp"))),
   targets::tar_target(name = protect_area_arm_data1, command = st_read(here("raw_data/Protected_areas_armenia/WDPA_WDOECM_Mar2023_Public_ARM_shp_1/WDPA_WDOECM_Mar2023_Public_ARM_shp-polygons.shp"))),
   targets::tar_target(name = protect_area_arm_data2, command = st_read(here("raw_data/Protected_areas_armenia/WDPA_WDOECM_Mar2023_Public_ARM_shp_2/WDPA_WDOECM_Mar2023_Public_ARM_shp-polygons.shp"))),
+  # Azerbaijan data (3 shapefiles)
+  targets::tar_target(name = protect_area_aze_data0, command = st_read(here("raw_data/Protected_areas_azerbaijan/WDPA_WDOECM_Apr2023_Public_AZE_shp_0/WDPA_WDOECM_Apr2023_Public_AZE_shp-polygons.shp"))),
+  targets::tar_target(name = protect_area_aze_data1, command = st_read(here("raw_data/Protected_areas_azerbaijan/WDPA_WDOECM_Apr2023_Public_AZE_shp_1/WDPA_WDOECM_Apr2023_Public_AZE_shp-polygons.shp"))),
+  targets::tar_target(name = protect_area_aze_data2, command = st_read(here("raw_data/Protected_areas_azerbaijan/WDPA_WDOECM_Apr2023_Public_AZE_shp_2/WDPA_WDOECM_Apr2023_Public_AZE_shp-polygons.shp"))),
+  # Georgia data (3 shapefiles)
+  targets::tar_target(name = protect_area_geo_data0, command = st_read(here("raw_data/Protected_areas_georgia/WDPA_WDOECM_Apr2023_Public_GEO_shp_0/WDPA_WDOECM_Apr2023_Public_GEO_shp-polygons.shp"))),
+  targets::tar_target(name = protect_area_geo_data1, command = st_read(here("raw_data/Protected_areas_georgia/WDPA_WDOECM_Apr2023_Public_GEO_shp_1/WDPA_WDOECM_Apr2023_Public_GEO_shp-polygons.shp"))),
+  targets::tar_target(name = protect_area_geo_data2, command = st_read(here("raw_data/Protected_areas_georgia/WDPA_WDOECM_Apr2023_Public_GEO_shp_2/WDPA_WDOECM_Apr2023_Public_GEO_shp-polygons.shp"))),
   
 )
 
@@ -172,6 +180,13 @@ data_processing_targets <- tar_plan(
   # Human Footprint Index 2018 -- these need to be processed with a different extent (need different extent function)
   targets::tar_target(name = HFI_2018_caucasus, command = terra::wrap(crop_mask_packedraster(get_caucasus_extent_HFI(), HFI_2018_data, reproject_caucasus_spdf(caucasus_provinces)))),
   
+  # 3.) Combine protected area sf objects for each country and for the region
+  targets::tar_target(name = protect_area_armenia, command = merge_protected_area_sf(protect_area_arm_data0, protect_area_arm_data1, protect_area_arm_data2)),
+  targets::tar_target(name = protect_area_azerbaijan, command = merge_protected_area_sf(protect_area_aze_data0, protect_area_aze_data1, protect_area_aze_data2)),
+  targets::tar_target(name = protect_area_georgia, command = merge_protected_area_sf(protect_area_geo_data0, protect_area_geo_data1, protect_area_geo_data2)),
+  targets::tar_target(name = protect_area_caucasus, command = merge_protected_area_caucasus(protect_area_arm_data0, protect_area_arm_data1, protect_area_arm_data2,
+                                                                                            protect_area_aze_data0, protect_area_aze_data1, protect_area_aze_data2,
+                                                                                            protect_area_geo_data0, protect_area_geo_data1, protect_area_geo_data2)),
   
   
 )
