@@ -137,6 +137,10 @@ data_processing_targets <- tar_plan(
  # targets::tar_target(name = extent_georgia, command = get_georgia_extent()),
   
   # 2.) Crop and mask raster data to Caucasus region
+  # (make sure to check crs of each raster to match crs of spdf (caucasus_provinces) and to use appropriate extent)
+  # terra::crs((terra::rast(packedspatraster)), proj = TRUE)
+  
+  # 2.a.) Rasters with same CRS as caucasus_provinces shapefile
   # Population data 
   targets::tar_target(name = pop_caucasus, command = terra::wrap(crop_mask_packedraster(get_caucasus_extent(), world_pop_data, caucasus_provinces))),
   # Landcover data
@@ -160,12 +164,13 @@ data_processing_targets <- tar_plan(
   # Cattle data (GLW)
   targets::tar_target(name = cattle_caucasus_GLW, command = terra::wrap(crop_mask_packedraster(get_caucasus_extent(), cattle_GLW_data, caucasus_provinces))),
   
-  # Human Footprint Index 2000 -- these need to be processed with a different extent (need different extent function)
-  targets::tar_target(name = HFI_2000_caucasus, command = terra::wrap(crop_mask_packedraster(get_caucasus_extent(), HFI_2000_data, caucasus_provinces))),
+  # 2.b.) Rasters with different CRS than caucasus_provinces shapefile, so cropping with different shapefile and extent
+  # Human Footprint Index 2000 -- these need to be processed with a different extent and spdf
+  targets::tar_target(name = HFI_2000_caucasus, command = terra::wrap(crop_mask_packedraster(get_caucasus_extent_HFI(), HFI_2000_data, reproject_caucasus_spdf(caucasus_provinces)))),
   # Human Footprint Index 2008 -- these need to be processed with a different extent (need different extent function)
-  targets::tar_target(name = HFI_2008_caucasus, command = terra::wrap(crop_mask_packedraster(get_caucasus_extent(), HFI_2008_data, caucasus_provinces))),
+  targets::tar_target(name = HFI_2008_caucasus, command = terra::wrap(crop_mask_packedraster(get_caucasus_extent_HFI(), HFI_2008_data, reproject_caucasus_spdf(caucasus_provinces)))),
   # Human Footprint Index 2018 -- these need to be processed with a different extent (need different extent function)
-  targets::tar_target(name = HFI_2018_caucasus, command = terra::wrap(crop_mask_packedraster(get_caucasus_extent(), HFI_2018_data, caucasus_provinces))),
+  targets::tar_target(name = HFI_2018_caucasus, command = terra::wrap(crop_mask_packedraster(get_caucasus_extent_HFI(), HFI_2018_data, reproject_caucasus_spdf(caucasus_provinces)))),
   
   
   
