@@ -12,15 +12,16 @@
 #' 
 c
 
-### Current code to process mammal data that needs to be:
+### Code to process mammal data that needs to be:
 # 1.) debugged
 # 2.) turned into functions
 # 3.) incorporated into _targets.R file
 
 
-
-# 1.) Crop and mask shapefile - Noam recommended to do this before fasterizing, but I'm not totally sure how to do this.
-# The code below (lines 25-32) runs ok, but I'm not sure which to use, sf, terra, or sp objects.
+### Debugging
+# 1.) Crop and mask shapefile
+# Noam recommended to crop and mask before fasterizing, but I'm not totally sure how to do this.
+# The code below (lines 26-35) runs without error, but may not be the most efficient way to do this.
 
 # Convert mammal_data sf object to terra format (spatvector)
 mammal_data_terra <- vect(mammal_data)
@@ -28,55 +29,25 @@ mammal_data_terra <- vect(mammal_data)
 mammal_data_crop <- crop(mammal_data_terra, get_caucasus_extent())
 # Convert back to sf format
 mammal_data_crop_sf <- sf::st_as_sf(mammal_data_crop)
-# Mask the mammal_data_crop sf object to the caucasus_provinces
-mammal_data_masked <- st_intersection(mammal_data_crop_sf, caucasus_provinces) # this line breaks down. Maybe mask after fasterizing?
-
-#####
-# Don't think can do below code because you need sf object for fasterize, I think (can't fasterize terra object/spatraster?)
-# need a SpatVector for the mask so turn desired SPDF into SpatVec object
-#caucasus_provinces_spatvec <- vect(caucasus_provinces, filter=p)
-# mask using spatvec
-#mask_mammal_crop <- terra::mask(x = mammal_data_crop, mask = caucasus_provinces_spatvec)
-#####
+# Convert caucasus_provinces to sf format (needs to be same format for the masking step - can't have one sf and one sp object)
+caucasus_provinces_sf <- sf::st_as_sf(caucasus_provinces)
+# Mask the mammal_data_crop sf object to the caucasus_provinces_sf object
+mammal_data_masked <- st_intersection(mammal_data_crop_sf, caucasus_provinces_sf)
 
 
-
-
-
-
-
-
-# 2.) generate a 1/X (e.g.1/6) degree resolution world map of mammalian biodiversity by rasterizing all the layers.
-# QUESTION - How does fasterize determine what value to associate with each raster cell?
-# QUESTION - Equally splits up total from polygon? Some other algorithm?
-# QUESTION - I Don't totally understand what's happening below because there are no values. Is it turning each polygon into a raster?
-mammal_raster <- raster(mammal_shapes, res = 1/200) #Noam's code
-mammal_raster2 <- raster(mammal_data_crop_sf, res = 1/100) #my code
+# 2.) generate a 1/X (e.g.1/10) degree resolution world map of mammalian biodiversity by rasterizing all the layers.
+# mammal_raster <- raster(mammal_shapes, res = 1/10)      # Noam's example code
+mammal_raster2 <- raster(mammal_data_masked, res = 1/10)  # My code
 
 # 3.) fasterize mammal rasters
-mammal_sum <- fasterize(mammal_shapes, mammal_raster, fun="sum") #Noam's code
-mammal_sum2 <- fasterize(mammal_data_crop_sf, mammal_raster2, fun="sum", ) #my code
+# mammal_sum <- fasterize(mammal_shapes, mammal_raster, fun="sum")         # Noam's example code
+mammal_sum2 <- fasterize(mammal_data_masked, mammal_raster2, fun="sum", )  # My code (where to code breaks down)
 
 # 4.) Adjust margins around plot (not necessary, but can use if desired)
-# CODE par(mar=c(0,0.5,0,0.5))
-# CODE plot(mammal_sum, axes=FALSE, box=FALSE)
+par(mar=c(0,0.5,0,0.5))
+# plot(mammal_sum, axes=FALSE, box=FALSE)  # Noam's example code
 
 
-
-
-
-
-### Code below will be replaced by step # 1.) above by cropping/masking shapefiles (rather than doing crop/mask first here)
-# 3.) Crop and mask raster
-# 3a) create extent "ext_caucasus2" (need extent not spatextent since this is a raster layer)
-# CODE ext_caucasus2 <- extent(39.6, 50.7, 38, 44)
-# 3b crop to extent
-# CODE mam_sum_crop <- crop(mammal_sum, ext_caucasus2)
-# 3c mask
-# CODE mask_mam_sum_crop <- mask(x = mam_sum_crop, mask = province_caucasus)
-
-# CODE plot(mask_mam_sum_crop)
-# CODE plot(province_caucasus, add = TRUE)
 
 
 
