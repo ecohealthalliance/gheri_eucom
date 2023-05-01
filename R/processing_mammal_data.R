@@ -19,16 +19,43 @@ c
 
 
 
-# 1.) Crop and mask shapefile - Noam recommended to do this before fasterizing, but I'm not sure how to do this.
+# 1.) Crop and mask shapefile - Noam recommended to do this before fasterizing, but I'm not totally sure how to do this.
+# The code below (lines 25-32) runs ok, but I'm not sure which to use, sf, terra, or sp objects.
+
+# Convert mammal_data sf object to terra format (spatvector)
+mammal_data_terra <- vect(mammal_data)
+# Crop the mammal_data_terra object based on the extent
+mammal_data_crop <- crop(mammal_data_terra, get_caucasus_extent())
+# Convert back to sf format
+mammal_data_crop_sf <- sf::st_as_sf(mammal_data_crop)
+# Mask the mammal_data_crop sf object to the caucasus_provinces
+mammal_data_masked <- st_intersection(mammal_data_crop_sf, caucasus_provinces) # this line breaks down. Maybe mask after fasterizing?
+
+#####
+# Don't think can do below code because you need sf object for fasterize, I think (can't fasterize terra object/spatraster?)
+# need a SpatVector for the mask so turn desired SPDF into SpatVec object
+#caucasus_provinces_spatvec <- vect(caucasus_provinces, filter=p)
+# mask using spatvec
+#mask_mammal_crop <- terra::mask(x = mammal_data_crop, mask = caucasus_provinces_spatvec)
+#####
+
+
+
+
+
+
+
 
 # 2.) generate a 1/X (e.g.1/6) degree resolution world map of mammalian biodiversity by rasterizing all the layers.
 # QUESTION - How does fasterize determine what value to associate with each raster cell?
 # QUESTION - Equally splits up total from polygon? Some other algorithm?
 # QUESTION - I Don't totally understand what's happening below because there are no values. Is it turning each polygon into a raster?
-# CODE mammal_raster <- raster(mammal_shapes, res = 1/200)
+mammal_raster <- raster(mammal_shapes, res = 1/200) #Noam's code
+mammal_raster2 <- raster(mammal_data_crop_sf, res = 1/100) #my code
 
 # 3.) fasterize mammal rasters
-# CODE mammal_sum <- fasterize(mammal_shapes, mammal_raster, fun="sum")
+mammal_sum <- fasterize(mammal_shapes, mammal_raster, fun="sum") #Noam's code
+mammal_sum2 <- fasterize(mammal_data_crop_sf, mammal_raster2, fun="sum", ) #my code
 
 # 4.) Adjust margins around plot (not necessary, but can use if desired)
 # CODE par(mar=c(0,0.5,0,0.5))
