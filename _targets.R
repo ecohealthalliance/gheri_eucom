@@ -188,6 +188,9 @@ data_processing_targets <- tar_plan(
                                                                                             protect_area_aze_data0, protect_area_aze_data1, protect_area_aze_data2,
                                                                                             protect_area_geo_data0, protect_area_geo_data1, protect_area_geo_data2)),
   
+  # 4.) Aggregate GLW data
+  
+  
   
 )
 
