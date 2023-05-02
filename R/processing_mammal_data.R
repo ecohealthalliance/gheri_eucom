@@ -10,7 +10,6 @@
 #' @examples
 #' 
 #' 
-c
 
 ### Overall goal of editing and processing the mammal data that needs to be:
 # 1.) debugged
@@ -23,16 +22,16 @@ c
 # Noam recommended to crop and mask before fasterizing, but I'm not totally sure how to do this.
 # The code below (lines 26-35) runs without error, but may not be the most efficient way to do this.
 
-# Convert mammal_data sf object to terra format (spatvector)
-mammal_data_terra <- vect(mammal_data)
-# Crop the mammal_data_terra object based on the extent
-mammal_data_crop <- crop(mammal_data_terra, get_caucasus_extent())
-# Convert back to sf format
-mammal_data_crop_sf <- sf::st_as_sf(mammal_data_crop)
-# Convert caucasus_provinces to sf format (needs to be same format for the masking step - can't have one sf and one sp object)
-caucasus_provinces_sf <- sf::st_as_sf(caucasus_provinces)
-# Mask the mammal_data_crop sf object to the caucasus_provinces_sf object
-mammal_data_masked <- st_intersection(mammal_data_crop_sf, caucasus_provinces_sf)
+# # Convert mammal_data sf object to terra format (spatvector)
+# mammal_data_terra <- vect(mammal_data)
+# # Crop the mammal_data_terra object based on the extent
+# mammal_data_crop <- crop(mammal_data_terra, get_caucasus_extent())
+# # Convert back to sf format
+# mammal_data_crop_sf <- sf::st_as_sf(mammal_data_crop)
+# # Convert caucasus_provinces to sf format (needs to be same format for the masking step - can't have one sf and one sp object)
+# caucasus_provinces_sf <- sf::st_as_sf(caucasus_provinces)
+# # Mask the mammal_data_crop sf object to the caucasus_provinces_sf object
+# mammal_data_masked <- st_intersection(mammal_data_crop_sf, caucasus_provinces_sf)
 
 
 # 2.) generate a 1/X (e.g.1/10) degree resolution world map of mammalian biodiversity by rasterizing all the layers.
