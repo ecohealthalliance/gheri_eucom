@@ -199,7 +199,7 @@ data_processing_targets <- tar_plan(
   #                                                                                           protect_area_geo_data0, protect_area_geo_data1, protect_area_geo_data2)),
 
   # 4.) Aggregate GLW data
-  summed_livestock = sum_GLW_data(caucasus_provinces)
+  summed_livestock = terra::wrap(sum_GLW_data(caucasus_provinces))
 
 
 )
