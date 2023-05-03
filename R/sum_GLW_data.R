@@ -12,7 +12,7 @@
 sum_GLW_data <- function(caucasus_provinces){
   
   # get list of all livestock filenames
-  livestock_files <- list.files("data/raw_data", pattern = "*2015_Aw.tif$", 
+  livestock_files <- list.files("raw_data", pattern = "*2015_Aw.tif$", 
                                 full.names = TRUE)
   
   # load livestock rasters as a stack
