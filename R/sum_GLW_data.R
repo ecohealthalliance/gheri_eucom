@@ -1,35 +1,34 @@
-#' Function to aggregate/sum GLW spatrasters to Caucasus countries
+#' Function to load all livestock files, crop and mask to sf of Caucasus countries
 #'
 #'
 #' @title sum_GLW_data
-
-#' @param 
+#' @param extent_obj sf object that you want to crop and mask the raster to
 #'
-#' @return 
+#' @return spatraster
 #'
 #' @examples
+#' sum_GLW_data(caucasus_provinces)
 #' 
-sum_GLW_data <- function(){
+sum_GLW_data <- function(caucasus_provinces){
   
+  # get list of all livestock filenames
+  livestock_files <- list.files("raw_data", pattern = "*2015_Aw.tif$", 
+                                full.names = TRUE)
+  
+  # load livestock rasters as a stack
+  livestock_stack <- terra::rast(livestock_files)
+  
+  # sum them
+  livestock_sum <- sum(livestock_stack, na.rm = T)
+  
+  # crop and mask
+  livestock_crop_mask <- terra::crop(livestock_sum, caucasus_provinces, 
+                                     mask = T)
+  
+  # set variable name
+  names(livestock_crop_mask) <- "sum_livestock"
+  
+  return(livestock_crop_mask)
 }
-
-### THIS IS GENERALLY WHAT I THINK TO DO, BUT NOT SURE EXACTLY HOW TO MAKE IT WORK
-
-# 1.) Loop to unpack GLW packed rasters?
-
-# 2.) create a list of all the spatraster files
-#spatrasters <- list.files(pattern = "_caucasus_GLW$", full.names = TRUE)
-
-# 3.) load all the spatrasters into a SpatRasterList
-#spatraster_list <- terra::rast(list_packspatrasters)
-
-# 4.) create a new spatraster with a variable "sum_livestock"
-#sum_livestock <- sum(spatraster_list)
-
-# 5.) set the variable name to "sum_livestock"
-#names(sum_livestock) <- "sum_livestock"
-
-# 6.) save the new spatraster as a GeoTIFF file
-#writeRaster(sum_livestock, "sum_livestock.tif", format = "GTiff", overwrite = TRUE)
 
 
