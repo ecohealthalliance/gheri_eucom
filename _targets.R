@@ -74,21 +74,21 @@ data_input_targets <- tar_plan(
   # https://dataverse.harvard.edu/dataverse/glw_4
   # downloaded manually and saved in raw_data
   ### CHICKENS (in folder as "6_Ch_2015_Aw.tif")
-  tar_file(chicken_GLW, "data/raw_data/6_Ch_2015_Aw.tif"),
+  tar_file(chicken_GLW, "raw_data/6_Ch_2015_Aw.tif"),
   ### SHEEP (in folder as "6_Sh_2015_Aw.tif")
-  tar_file(sheep_GLW, "data/raw_data/6_Sh_2015_Aw.tif"),
+  tar_file(sheep_GLW, "raw_data/6_Sh_2015_Aw.tif"),
   ### PIG (in folder as "6_Pg_2015_Aw.tif")
-  tar_file(pig_GLW, "data/raw_data/6_Pg_2015_Aw.tif"),
+  tar_file(pig_GLW, "raw_data/6_Pg_2015_Aw.tif"),
   ### HORSE (in folder as "6_Ho_2015_Aw.tif")
-  tar_file(horse_GLW, "data/raw_data/6_Ho_2015_Aw.tif"),
+  tar_file(horse_GLW, "raw_data/6_Ho_2015_Aw.tif"),
   ### GOAT (in folder as "6_Gt_2015_Aw.tif")
-  tar_file(goat_GLW, "data/raw_data/6_Gt_2015_Aw.tif"),
+  tar_file(goat_GLW, "raw_data/6_Gt_2015_Aw.tif"),
   ### DUCK (in folder as "6_Dk_2015_Aw.tif")
-  tar_file(duck_GLW, "data/raw_data/6_Dk_2015_Aw.tif"),
+  tar_file(duck_GLW, "raw_data/6_Dk_2015_Aw.tif"),
   ### BUFFALO (in folder as "6_Bf_2015_Aw.tif")
-  tar_file(buffalo_GLW, "data/raw_data/6_Bf_2015_Aw.tif"),
+  tar_file(buffalo_GLW, "raw_data/6_Bf_2015_Aw.tif"),
   ### CATTLE (in folder as "6_Ct_2015_Aw.tif")
-  tar_file(cattle_GLW, "data/raw_data/6_Ct_2015_Aw.tif")
+  tar_file(cattle_GLW, "raw_data/6_Ct_2015_Aw.tif")
   
   
   # 7.) Read in Terrestrial Mammal data
