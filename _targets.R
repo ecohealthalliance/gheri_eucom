@@ -88,14 +88,14 @@ data_input_targets <- tar_plan(
   ### BUFFALO (in folder as "6_Bf_2015_Aw.tif")
   tar_file(buffalo_GLW, "raw_data/6_Bf_2015_Aw.tif"),
   ### CATTLE (in folder as "6_Ct_2015_Aw.tif")
-  tar_file(cattle_GLW, "raw_data/6_Ct_2015_Aw.tif")
+  tar_file(cattle_GLW, "raw_data/6_Ct_2015_Aw.tif"),
   
   
   # 7.) Read in Terrestrial Mammal data
   # Data from https://www.iucnredlist.org
   # downloaded manually and saved in raw_data folder in 
   # subfolder as "MAMMALS_TERRESTRIAL_ONLY
-  #targets::tar_target(name = mammal_data, command = st_read(here("raw_data/MAMMALS_TERRESTRIAL_ONLY/MAMMALS_TERRESTRIAL_ONLY.shp"))),
+  tar_file(mammal_data, "raw_data/MAMMALS_TERRESTRIAL_ONLY/MAMMALS_TERRESTRIAL_ONLY.shp")
   
   
   # 8.) Read in Human Footprint Index data
@@ -199,9 +199,13 @@ data_processing_targets <- tar_plan(
   #                                                                                           protect_area_geo_data0, protect_area_geo_data1, protect_area_geo_data2)),
 
   # 4.) Aggregate GLW data
-  summed_livestock = terra::wrap(sum_GLW_data(caucasus_provinces))
+  summed_livestock = terra::wrap(sum_GLW_data(caucasus_provinces)),
 
 
+  # 5.) Calculate mammal richness from IUCN data
+  mammal_rich = terra::wrap(calc_mammal_rich(mammal_data = mammal_data, 
+                                             template_rast = chicken_caucasus, 
+                                             crop_by_obj = caucasus_provinces))
 )
 
 
