@@ -16,12 +16,16 @@ for (f in list.files(here::here("R"), full.names = TRUE)) source (f)
 ## Data input
 
 data_input_targets <- tar_plan(
-  # 1.) Read in official administrative boundary data (admin level 1) directly from rnaturalearth package
+  # 1.) Read in official administrative boundary data (admin level 1 and 0) directly from rnaturalearth package
    tar_target(caucasus_provinces, 
               get_country_province(c("Armenia", "Azerbaijan", "Georgia"))),
    tar_target(armenia_provinces, get_country_province("Armenia")),
    tar_target(azerbaijan_provinces, get_country_province("Azerbaijan")),
    tar_target(georgia_provinces, get_country_province("Georgia")),
+   
+   tar_target(armenia_border, get_country_border("Armenia")),
+   tar_target(azerbaijan_border, get_country_border("Azerbaijan")),
+   tar_target(georgia_border, get_country_border("Georgia")),
 
   # 2.) Read in unofficial administrative boundary data (admin level 2 e.g., towns)
   # Manually download from HDX humdata.org and save in folder "raw_data"
@@ -218,6 +222,11 @@ analysis_targets <- tar_plan(
 
 ## Outputs
 outputs_targets <- tar_plan(
+  #Plot of mammal richness for Georgia + caucasus provinces
+  tar_target(plot_mammal_georgia,
+             plot_mammal_rich(mammal_rich, armenia_provinces, azerbaijan_provinces, georgia_provinces))
+  
+ 
   ## This is a placeholder for any targets that produces outputs such as
   ## tables of model outputs, plots, etc. Delete or keep empty if you will not
   ## produce any of these types of outputs
