@@ -23,10 +23,6 @@ data_input_targets <- tar_plan(
    tar_target(azerbaijan_provinces, get_country_province("Azerbaijan")),
    tar_target(georgia_provinces, get_country_province("Georgia")),
    
-   tar_target(armenia_border, get_country_border("Armenia")),
-   tar_target(azerbaijan_border, get_country_border("Azerbaijan")),
-   tar_target(georgia_border, get_country_border("Georgia")),
-
   # 2.) Read in unofficial administrative boundary data (admin level 2 e.g., towns)
   # Manually download from HDX humdata.org and save in folder "raw_data"
   # Armenia data at https://data.humdata.org/dataset/geoboundaries-admin-boundaries-for-armenia
@@ -45,7 +41,8 @@ data_input_targets <- tar_plan(
   # https://www.worldpop.org/geodata/summary?id=24777
   # downloaded manually and saved in raw_data
   # folder as "ppp_2020_1km_Aggregated.tif"
-    #targets::tar_target(name = world_pop_data, command = terra::wrap(terra::rast(here("raw_data/ppp_2020_1km_Aggregated.tif")))),
+  tar_file(world_pop_data, "raw_data/ppp_2020_1km_Aggregated.tif"),  
+  #targets::tar_target(name = world_pop_data, command = terra::wrap(terra::rast(here("raw_data/ppp_2020_1km_Aggregated.tif")))),
   
   # 4.) Read in World Landcover data
   # ESA World Cover 2021
@@ -164,6 +161,8 @@ data_processing_targets <- tar_plan(
   # Chicken data (GLW)
   tar_target(chicken_caucasus, 
              terra::wrap(crop_mask_rast(chicken_GLW, caucasus_provinces))),
+  tar_target(chicken_georgia, 
+             terra::wrap(crop_mask_rast(chicken_GLW, georgia_provinces))),
   # Sheep data (GLW)
   tar_target(sheep_caucasus, 
              terra::wrap(crop_mask_rast(sheep_GLW, caucasus_provinces))),
@@ -203,13 +202,23 @@ data_processing_targets <- tar_plan(
   #                                                                                           protect_area_geo_data0, protect_area_geo_data1, protect_area_geo_data2)),
 
   # 4.) Aggregate GLW data
-  summed_livestock = terra::wrap(sum_GLW_data(caucasus_provinces)),
-
+  summed_livestock_caucasus = terra::wrap(sum_GLW_data(caucasus_provinces)),
+  summed_livestock_georgia = terra::wrap(sum_GLW_data(georgia_provinces)),
+  summed_livestock_armenia = terra::wrap(sum_GLW_data(armenia_provinces)),
+  summed_livestock_azerbaijan = terra::wrap(sum_GLW_data(azerbaijan_provinces)),
 
   # 5.) Calculate mammal richness from IUCN data
   mammal_rich = terra::wrap(calc_mammal_rich(mammal_data = mammal_data, 
                                              template_rast = chicken_caucasus, 
-                                             crop_by_obj = caucasus_provinces))
+                                             crop_by_obj = caucasus_provinces)),
+  
+  # 6.) Crop world population data to country
+  tar_target(georgia_pop, 
+             terra::wrap(crop_mask_rast(world_pop_data, georgia_provinces))),
+  tar_target(armenia_pop, 
+             terra::wrap(crop_mask_rast(world_pop_data, armenia_provinces))),
+  tar_target(azerbaijan_pop, 
+             terra::wrap(crop_mask_rast(world_pop_data, azerbaijan_provinces))),
 )
 
 
