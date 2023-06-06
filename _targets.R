@@ -232,9 +232,7 @@ analysis_targets <- tar_plan(
 ## Outputs
 outputs_targets <- tar_plan(
   #Plot of mammal richness for Georgia + caucasus provinces
-  tar_target(plot_mammal_georgia,
-             plot_mammal_rich(mammal_rich, armenia_provinces, azerbaijan_provinces, georgia_provinces))
-  
+  tar_target(plot_mammal_georgia, plot_mammal_rich(mammal_rich, caucasus_provinces, georgia_provinces)),
  
   ## This is a placeholder for any targets that produces outputs such as
   ## tables of model outputs, plots, etc. Delete or keep empty if you will not
