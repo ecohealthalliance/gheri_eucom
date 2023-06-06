@@ -43,6 +43,7 @@ library(tidyterra)
 library(tidyverse)
 library(RColorBrewer)
 library(viridis)
+library(grid)
 
 library(rnaturalearthhires) # Had trouble installing this so used this code:
 # remotes::install_github("ropensci/rnaturalearthhires")
