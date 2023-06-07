@@ -185,16 +185,16 @@ data_processing_targets <- tar_plan(
   tar_target(cattle_caucasus, 
              terra::wrap(crop_mask_rast(cattle_GLW, caucasus_provinces))),
 
-  # # 2.b.) Rasters with different CRS than caucasus_provinces shapefile, so cropping with different shapefile and extent
-  # # Human Footprint Index 2000 -- these need to be processed with a different extent and spdf
-  # targets::tar_target(name = HFI_2000_caucasus, command = terra::wrap(crop_mask_packedraster(get_caucasus_extent_HFI(), HFI_2000_data, reproject_caucasus_spdf(caucasus_provinces)))),
-  # # Human Footprint Index 2008 -- these need to be processed with a different extent (need different extent function)
-  # targets::tar_target(name = HFI_2008_caucasus, command = terra::wrap(crop_mask_packedraster(get_caucasus_extent_HFI(), HFI_2008_data, reproject_caucasus_spdf(caucasus_provinces)))),
-  # # Human Footprint Index 2018 -- these need to be processed with a different extent (need different extent function)
-  # targets::tar_target(name = HFI_2018_caucasus, command = terra::wrap(crop_mask_packedraster(get_caucasus_extent_HFI(), HFI_2018_data, reproject_caucasus_spdf(caucasus_provinces)))),
-  # 
-  # # 3.) Combine protected area sf objects for each country and for the region
-    targets::tar_target(protect_area_caucasus, merge_protected_areas()), # this isn't working as it is dependent on other targets being loaded?
+  #  2.b.)
+  # Human Footprint Index 2000 (different crs than caucasus_provinces, so slightly different pre-processing)
+  tar_target(hfi_2000_caucasus,
+             terra::wrap(get_cropped_hfi(caucasus_provinces, HFI_2000_data))),
+ 
+  # Human Footprint Index 2018 -- these need to be processed with a different extent (need different extent function)
+  hfi_2018_caucasus = terra::wrap(get_cropped_hfi(caucasus_provinces, HFI_2018_data)),
+  
+  #  3.) Combine protected area sf objects for each country and for the region
+    #targets::tar_target(protect_area_caucasus, merge_protected_areas()), # this isn't working as it is dependent on other targets being loaded?
 
 
   # 4.) Aggregate GLW data
