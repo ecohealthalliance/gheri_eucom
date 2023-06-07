@@ -12,6 +12,16 @@
 #' 
 #' 
 
+
+
+
+
+
+
+
+
+
+
 # Reproject CRS of caucasus_provinces shapefile to match designated raster (i.e. HFI_2000_data)
 reproject_caucasus_spdf <- function(spdf){
 caucasus_provinces_hfi <- spTransform(spdf, CRS("+proj=moll +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs"))
