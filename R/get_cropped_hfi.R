@@ -15,12 +15,12 @@
 get_cropped_hfi <- function(sf_object, HFI_data){
 
   #reproject sf object that will be used to crop HFI data
-  object_hfi_projection <- st_transform(sf_object, crs = st_crs(terra::rast(HFI_2000_data)))
+  object_hfi_projection <- st_transform(sf_object, crs = st_crs(terra::rast(HFI_data)))
 
   # crop and mask
-  mask_rast_crop <- terra::crop((terra::rast(HFI_2000_data)), object_hfi_projection, mask = TRUE)
+  mask_rast_crop <- terra::crop((terra::rast(HFI_data)), object_hfi_projection, mask = TRUE)
   
   return(mask_rast_crop)
 }
 
-
+#hfi_2000_caucasus <- get_cropped_hfi(caucasus_provinces, HFI_2000_data)
