@@ -18,13 +18,15 @@ plot_mammal_rich <- function(mammal_rich, caucasus_provinces, georgia_provinces)
   
   # 1.)  rast to unpack packedspatraster
   mammal_rich_spatrast <- terra::rast(mammal_rich)
-  # 2.) Create scale
+ 
+   # 2.) Create scale
   consistent_scale <- scale_fill_viridis_c(limits = c(0,80),
                                          option = "D",  
                                          na.value = "transparent",
                                          name = "Number of
 species",
                                          breaks = c(1, 76))
+  
   # 3.) Create georgia, armenia, and azerbaijan labels
   label_georgia <- grobTree(textGrob("Regions of
 Georgia", x=0.05,  y=0.75, hjust=0, gp=gpar(col="black", fontsize=10)))
@@ -36,7 +38,7 @@ Armenia", x=0.3,  y=0.25, hjust=0, gp=gpar(col="#5a5a5a", fontsize=10)))
 Azerbaijan", x=0.84,  y=0.6, hjust=0, gp=gpar(col="#5a5a5a", fontsize=10)))
   
   # 4.) Plot data
-  georgia_mammal <- ggplot() +
+  region_mammal <- ggplot() +
     geom_spatraster(data = mammal_rich_spatrast,
                     aes(fill = richness), interpolate = TRUE) +
     geom_sf(data = caucasus_provinces, fill = NA, color = "darkgray") +
@@ -47,10 +49,10 @@ Azerbaijan", x=0.84,  y=0.6, hjust=0, gp=gpar(col="#5a5a5a", fontsize=10)))
     annotation_custom(label_armenia) +
     annotation_custom(label_azerbaijan)
   
-  return(georgia_mammal)
+  return(region_mammal)
 }
 
-plot_mammal_rich(mammal_rich, caucasus_provinces, georgia_provinces)
+#plot_mammal_rich(mammal_rich, caucasus_provinces, georgia_provinces)
 
 
 
