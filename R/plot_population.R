@@ -15,26 +15,41 @@
 #' 
 
 plot_pop_country <- function(country_pop, country_provinces){
-  # rast to unpack packedspatraster
+  # 1.) rast to unpack packedspatraster
   country_pop_rast <- terra::rast(country_pop)
   
-  # plot GLW + outline of caucasus provinces
-  terra::plot(country_pop_rast,
-              axes = FALSE,
-              smooth = TRUE,
-              buffer = TRUE,
-              plg=list(
-                title = "   Number of
-people",
-                title.cex=0.8,
-                size = 0.7,
-                loc = "right"))
+  # 2.) Create scale
+  population_scale <- scale_fill_viridis_c(limits = c(0,17000),
+                                           option = "H",  
+                                           na.value = "transparent",
+                                           name = "Number of people",
+                                           breaks = c(5000, 10000, 15000))
   
-  terra::plot(country_provinces$geometry,
-              border = "darkgray",
-              add = TRUE)
+  # 3.) Create georgia, armenia, and azerbaijan labels
+  label_georgia <- grobTree(textGrob("Regions of
+Georgia", x=0.05,  y=0.75, hjust=0, gp=gpar(col="black", fontsize=10)))
+  
+  label_armenia <- grobTree(textGrob("Regions of
+Armenia", x=0.3,  y=0.25, hjust=0, gp=gpar(col="#5a5a5a", fontsize=10)))
+  
+  label_azerbaijan <- grobTree(textGrob("Regions of
+Azerbaijan", x=0.84,  y=0.6, hjust=0, gp=gpar(col="#5a5a5a", fontsize=10)))
+  
+  # 4.) Plot data
+  region_pop <- ggplot() +
+    geom_spatraster(data = country_pop_rast,
+                    aes(fill = ppp_2020_1km_Aggregated), interpolate = TRUE) +
+    geom_sf(data = caucasus_provinces, fill = NA, color = "#5a5a5a") +
+    geom_sf(data = georgia_provinces, fill = NA, color = "white") +
+    population_scale +
+    theme_void() +
+    annotation_custom(label_georgia) +
+    annotation_custom(label_armenia) +
+    annotation_custom(label_azerbaijan)
+  
+  return(region_pop)
+  
 }
-#plot_pop_country(georgia_pop, georgia_provinces)
-#plot_pop_country(armenia_pop, armenia_provinces)
-#plot_pop_country(azerbaijan_pop, azerbaijan_provinces)
+#plot_pop_country(caucasus_pop, caucasus_provinces)
+
 
