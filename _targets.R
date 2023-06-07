@@ -96,7 +96,7 @@ data_input_targets <- tar_plan(
   # Data from https://www.iucnredlist.org
   # downloaded manually and saved in raw_data folder in 
   # subfolder as "MAMMALS_TERRESTRIAL_ONLY
-  tar_file(mammal_data, "raw_data/MAMMALS_TERRESTRIAL_ONLY/MAMMALS_TERRESTRIAL_ONLY.shp")
+  tar_file(mammal_data, "raw_data/MAMMALS_TERRESTRIAL_ONLY/MAMMALS_TERRESTRIAL_ONLY.shp"),
   
   
   # 8.) Read in Human Footprint Index data
@@ -121,9 +121,12 @@ data_input_targets <- tar_plan(
   # For each country there are multiple shapefile folders split into equal parts due to their large size. 
   # In order to work with the data, you can load all three polygon shapefiles and merge them into one layer.
   # Armenia data (3 shapefiles)
-  targets::tar_target(name = protect_area_arm_data0, command = st_read(here("raw_data/Protected_areas_armenia/WDPA_WDOECM_Mar2023_Public_ARM_shp_0/WDPA_WDOECM_Mar2023_Public_ARM_shp-polygons.shp"))),
-  # targets::tar_target(name = protect_area_arm_data1, command = st_read(here("raw_data/Protected_areas_armenia/WDPA_WDOECM_Mar2023_Public_ARM_shp_1/WDPA_WDOECM_Mar2023_Public_ARM_shp-polygons.shp"))),
-  # targets::tar_target(name = protect_area_arm_data2, command = st_read(here("raw_data/Protected_areas_armenia/WDPA_WDOECM_Mar2023_Public_ARM_shp_2/WDPA_WDOECM_Mar2023_Public_ARM_shp-polygons.shp"))),
+  tar_file(protect_area_arm_data0, "raw_data/Protected_areas_armenia/WDPA_WDOECM_Mar2023_Public_ARM_shp_0/WDPA_WDOECM_Mar2023_Public_ARM_shp-polygons.shp"),
+  tar_file(protect_area_arm_data1, "raw_data/Protected_areas_armenia/WDPA_WDOECM_Mar2023_Public_ARM_shp_1/WDPA_WDOECM_Mar2023_Public_ARM_shp-polygons.shp"),
+  tar_file(protect_area_arm_data2, "raw_data/Protected_areas_armenia/WDPA_WDOECM_Mar2023_Public_ARM_shp_2/WDPA_WDOECM_Mar2023_Public_ARM_shp-polygons.shp"),
+  #targets::tar_target(name = protect_area_arm_data0, command = st_read(here("raw_data/Protected_areas_armenia/WDPA_WDOECM_Mar2023_Public_ARM_shp_0/WDPA_WDOECM_Mar2023_Public_ARM_shp-polygons.shp"))),
+  #targets::tar_target(name = protect_area_arm_data1, command = st_read(here("raw_data/Protected_areas_armenia/WDPA_WDOECM_Mar2023_Public_ARM_shp_1/WDPA_WDOECM_Mar2023_Public_ARM_shp-polygons.shp"))),
+  #targets::tar_target(name = protect_area_arm_data2, command = st_read(here("raw_data/Protected_areas_armenia/WDPA_WDOECM_Mar2023_Public_ARM_shp_2/WDPA_WDOECM_Mar2023_Public_ARM_shp-polygons.shp"))),
   
   # Azerbaijan data (3 shapefiles)
   # targets::tar_target(name = protect_area_aze_data0, command = st_read(here("raw_data/Protected_areas_azerbaijan/WDPA_WDOECM_Apr2023_Public_AZE_shp_0/WDPA_WDOECM_Apr2023_Public_AZE_shp-polygons.shp"))),
