@@ -121,9 +121,10 @@ data_input_targets <- tar_plan(
   # For each country there are multiple shapefile folders split into equal parts due to their large size. 
   # In order to work with the data, you can load all three polygon shapefiles and merge them into one layer.
   # Armenia data (3 shapefiles)
-  # targets::tar_target(name = protect_area_arm_data0, command = st_read(here("raw_data/Protected_areas_armenia/WDPA_WDOECM_Mar2023_Public_ARM_shp_0/WDPA_WDOECM_Mar2023_Public_ARM_shp-polygons.shp"))),
+  targets::tar_target(name = protect_area_arm_data0, command = st_read(here("raw_data/Protected_areas_armenia/WDPA_WDOECM_Mar2023_Public_ARM_shp_0/WDPA_WDOECM_Mar2023_Public_ARM_shp-polygons.shp"))),
   # targets::tar_target(name = protect_area_arm_data1, command = st_read(here("raw_data/Protected_areas_armenia/WDPA_WDOECM_Mar2023_Public_ARM_shp_1/WDPA_WDOECM_Mar2023_Public_ARM_shp-polygons.shp"))),
   # targets::tar_target(name = protect_area_arm_data2, command = st_read(here("raw_data/Protected_areas_armenia/WDPA_WDOECM_Mar2023_Public_ARM_shp_2/WDPA_WDOECM_Mar2023_Public_ARM_shp-polygons.shp"))),
+  
   # Azerbaijan data (3 shapefiles)
   # targets::tar_target(name = protect_area_aze_data0, command = st_read(here("raw_data/Protected_areas_azerbaijan/WDPA_WDOECM_Apr2023_Public_AZE_shp_0/WDPA_WDOECM_Apr2023_Public_AZE_shp-polygons.shp"))),
   # targets::tar_target(name = protect_area_aze_data1, command = st_read(here("raw_data/Protected_areas_azerbaijan/WDPA_WDOECM_Apr2023_Public_AZE_shp_1/WDPA_WDOECM_Apr2023_Public_AZE_shp-polygons.shp"))),
@@ -213,6 +214,8 @@ data_processing_targets <- tar_plan(
                                              crop_by_obj = caucasus_provinces)),
   
   # 6.) Crop world population data to country
+  tar_target(caucasus_pop, 
+             terra::wrap(crop_mask_rast(world_pop_data, caucasus_provinces))),
   tar_target(georgia_pop, 
              terra::wrap(crop_mask_rast(world_pop_data, georgia_provinces))),
   tar_target(armenia_pop, 
@@ -231,9 +234,13 @@ analysis_targets <- tar_plan(
 
 ## Outputs
 outputs_targets <- tar_plan(
-  #Plot of mammal richness for Georgia + caucasus provinces
-  tar_target(plot_mammal_georgia, plot_mammal_rich(mammal_rich, caucasus_provinces, georgia_provinces)),
- 
+  # THESE TARGETS ARE NOT BEING MADE, AND I'M NOT SURE WHY
+   
+  # Plot of mammal richness for Caucasus provinces, with an emphasis on Georgia
+  tar_target(plot_mammal_caucasus, plot_mammal_rich(mammal_rich, caucasus_provinces, georgia_provinces)),
+  # Plot of human population for Caucasus provinces, with an emphasis on Georgia
+  tar_target(plot_caucasus_pop, plot_pop_country(caucasus_pop, caucasus_provinces)),
+  
   ## This is a placeholder for any targets that produces outputs such as
   ## tables of model outputs, plots, etc. Delete or keep empty if you will not
   ## produce any of these types of outputs
