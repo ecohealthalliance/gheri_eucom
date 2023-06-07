@@ -29,6 +29,7 @@ livestock_scale <- scale_fill_viridis(
   breaks = c(50000, 228000, 635538),
   name = "Number of
 livestock",
+  option = "H",
   na.value = "transparent"
 )
 
@@ -110,7 +111,7 @@ Azerbaijan",    x=49, y= 41.5, cex = 0.7, bty="n")
   terra::plot(georgia_provinces$geometry,
               add = TRUE)
 }
-plot_livestock_caucasus_terra(summed_livestock_caucasus, armenia_provinces, azerbaijan_provinces, georgia_provinces)
+#plot_livestock_caucasus_terra(summed_livestock_caucasus, armenia_provinces, azerbaijan_provinces, georgia_provinces)
 
 
 plot_livestock_country <- function(summed_livestock_country, country_provinces){
