@@ -13,9 +13,9 @@ for (f in list.files(here::here("R"), full.names = TRUE)) source (f)
 
 # Groups of targets ------------------------------------------------------------
 
-## Data input
-
+### DATA INPUT
 data_input_targets <- tar_plan(
+  
   # 1.) Read in official administrative boundary data (admin level 1 and 0) directly from rnaturalearth package
    tar_target(caucasus_provinces, 
               get_country_province(c("Armenia", "Azerbaijan", "Georgia"))),
@@ -109,11 +109,14 @@ data_input_targets <- tar_plan(
   # I only have the years 2000, 2008, and 2018 for now, but can downlaod more years as desired
   # Maybe we want to overlay national protected areas or something?
   ### 2000
-  targets::tar_target(name = HFI_2000_data, command = terra::wrap(terra::rast(here("raw_data/hfp2000.tif")))),
+  targets::tar_target(HFI_2000_data,
+                      terra::wrap(terra::rast(here("raw_data/hfp2000.tif")))),
   ### 2008
-  targets::tar_target(name = HFI_2008_data, command = terra::wrap(terra::rast(here("raw_data/hfp2008.tif")))),
+  #targets::tar_target(HFI_2008_data,
+                      #terra::wrap(terra::rast(here("raw_data/hfp2008.tif")))),
   ### 2018
-  targets::tar_target(name = HFI_2018_data, command = terra::wrap(terra::rast(here("raw_data/hfp2018.tif")))),
+  targets::tar_target(HFI_2018_data,
+                      terra::wrap(terra::rast(here("raw_data/hfp2018.tif")))),
   
   
   # 9.) Read in Protected Area data
@@ -137,78 +140,70 @@ data_input_targets <- tar_plan(
 
 
 
-## Data processing
+### DATA PROCESSING
 data_processing_targets <- tar_plan(
- # Don't think I need these lines (133-137)anymore because I can directly use the get_caucasus_extent() function in my next crop_mask_raster targets below
- # 1.) Create extent for Caucasus region and each individual country
- # targets::tar_target(name = extent_caucasus, command = get_caucasus_extent()),
- # targets::tar_target(name = extent_armenia, command = get_armenia_extent()),
- # targets::tar_target(name = extent_azerbaijan, command = get_azerbaijan_extent()),
- # targets::tar_target(name = extent_georgia, command = get_georgia_extent()),
 
-  # 2.) Crop and mask raster data to Caucasus region
-  # (make sure to check crs of each raster to match crs of spdf (caucasus_provinces) and to use appropriate extent)
-  # terra::crs((terra::rast(packedspatraster)), proj = TRUE)
-
-  # 2.a.) Rasters with same CRS as caucasus_provinces shapefile
-  # # Population data
-  # targets::tar_target(name = pop_caucasus, command = terra::wrap(crop_mask_packedraster(get_caucasus_extent(), world_pop_data, caucasus_provinces))),
-  # # Landcover data
-  # targets::tar_target(name = landcover_caucasus, command = terra::wrap(crop_mask_packedraster(get_caucasus_extent(), world_landcover_data, caucasus_provinces))),
-  # # Elevation data -- currently not working and receiving an error
-  # targets::tar_target(name = elevation_caucasus, command = terra::wrap(crop_mask_packedraster(get_caucasus_extent(), world_elevation_data, caucasus_provinces))),
-  # 
-  # Chicken data (GLW)
+#GLW Data
+  # Chicken data (GLW) crop and mask
   tar_target(chicken_caucasus, 
              terra::wrap(crop_mask_rast(chicken_GLW, caucasus_provinces))),
   tar_target(chicken_georgia, 
              terra::wrap(crop_mask_rast(chicken_GLW, georgia_provinces))),
-  # Sheep data (GLW)
+  # Sheep data (GLW) crop and mask
   tar_target(sheep_caucasus, 
              terra::wrap(crop_mask_rast(sheep_GLW, caucasus_provinces))),
-  # Pig data (GLW)
+  # Pig data (GLW) crop and mask
   tar_target(pig_caucasus, 
              terra::wrap(crop_mask_rast(pig_GLW, caucasus_provinces))),
-  # Horse data (GLW)
+  # Horse data (GLW) crop and mask
   tar_target(horse_caucasus, 
              terra::wrap(crop_mask_rast(horse_GLW, caucasus_provinces))),
-  # Goat data (GLW)
+  # Goat data (GLW) crop and mask
   tar_target(goat_caucasus, 
              terra::wrap(crop_mask_rast(goat_GLW, caucasus_provinces))),
-  # Duck data (GLW)
+  # Duck data (GLW) crop and mask
   tar_target(duck_caucasus, 
              terra::wrap(crop_mask_rast(duck_GLW, caucasus_provinces))),
-  # Buffalo data (GLW)
+  # Buffalo data (GLW) crop and mask
   tar_target(buffalo_caucasus, 
              terra::wrap(crop_mask_rast(buffalo_GLW, caucasus_provinces))),
-  # Cattle data (GLW)
+  # Cattle data (GLW) crop and mask
   tar_target(cattle_caucasus, 
              terra::wrap(crop_mask_rast(cattle_GLW, caucasus_provinces))),
-
-  #  2.b.)
-  # Human Footprint Index 2000 (different crs than caucasus_provinces, so slightly different pre-processing)
-  tar_target(hfi_2000_caucasus,
-             terra::wrap(get_cropped_hfi(caucasus_provinces, HFI_2000_data))),
- 
-  # Human Footprint Index 2018 -- these need to be processed with a different extent (need different extent function)
-  hfi_2018_caucasus = terra::wrap(get_cropped_hfi(caucasus_provinces, HFI_2018_data)),
-  
-  #  3.) Combine protected area sf objects for each country and for the region
-    #targets::tar_target(protect_area_caucasus, merge_protected_areas()), # this isn't working as it is dependent on other targets being loaded?
-
-
-  # 4.) Aggregate GLW data
+  # Aggregate GLW data
   summed_livestock_caucasus = terra::wrap(sum_GLW_data(caucasus_provinces)),
   summed_livestock_georgia = terra::wrap(sum_GLW_data(georgia_provinces)),
   summed_livestock_armenia = terra::wrap(sum_GLW_data(armenia_provinces)),
   summed_livestock_azerbaijan = terra::wrap(sum_GLW_data(azerbaijan_provinces)),
+  # Aggregate GLW data (I think can now be deleted)
+  #summed_livestock_caucasus = terra::wrap(sum_GLW_data(caucasus_provinces)),
+  #summed_livestock_georgia = terra::wrap(sum_GLW_data(georgia_provinces)),
+  #summed_livestock_armenia = terra::wrap(sum_GLW_data(armenia_provinces)),
+  #summed_livestock_azerbaijan = terra::wrap(sum_GLW_data(azerbaijan_provinces)),
+  
+#Human Footprint Index
+  # HFI 2000  crop and mask (different crs than caucasus_provinces, so slightly different pre-processing)
+  tar_target(hfi_2000_caucasus,
+             terra::wrap(get_cropped_hfi(caucasus_provinces, HFI_2000_data))),
+  # HFI 2018 crop and mask (different crs than caucasus_provinces, so slightly different pre-processing)
+  tar_target(hfi_2018_caucasus,
+             terra::wrap(get_cropped_hfi(caucasus_provinces, HFI_2018_data))),
 
-  # 5.) Calculate mammal richness from IUCN data
+#Protected areas  
+  # Combine protected area sf objects for each country and for the region
+  targets::tar_target(protected_area_caucasus,
+                      terra::wrap(merge_protected_areas(protect_area_arm_data0, protect_area_arm_data1, protect_area_arm_data2,
+                                                        protect_area_aze_data0, protect_area_aze_data1, protect_area_aze_data2,
+                                                        protect_area_geo_data0, protect_area_geo_data1, protect_area_geo_data2))), # this isn't working. Is it dependent on other targets or files being loaded?
+
+#Mammal richness
+  # Calculate from IUCN data
   mammal_rich = terra::wrap(calc_mammal_rich(mammal_data = mammal_data, 
                                              template_rast = chicken_caucasus, 
                                              crop_by_obj = caucasus_provinces)),
   
-  # 6.) Crop world population data to country
+#World population
+  # crop and mask
   tar_target(caucasus_pop, 
              terra::wrap(crop_mask_rast(world_pop_data, caucasus_provinces))),
   tar_target(georgia_pop, 
@@ -220,14 +215,14 @@ data_processing_targets <- tar_plan(
 )
 
 
-## Analysis
+### ANALYSIS
 analysis_targets <- tar_plan(
   ## Example analysis target/s; delete and replace with your own analysis
   ## targets
 
 )
 
-## Outputs
+### OUTPUTS
 outputs_targets <- tar_plan(
   # THESE TARGETS ARE NOT BEING MADE, AND I'M NOT SURE WHY
    
@@ -242,7 +237,7 @@ outputs_targets <- tar_plan(
 )
 
 
-## Report
+### REPORT
 report_targets <- tar_plan(
   ## Example Rmarkdown report target/s; delete and replace with your own
   ## Rmarkdown report target/s
@@ -253,7 +248,7 @@ report_targets <- tar_plan(
   # )
 )
 
-## Deploy targets
+### DEPLOY TARGETS
 deploy_targets <- tar_plan(
   ## This is a placeholder for any targets that are meant to deploy reports or
   ## any outputs externally e.g., website, Google Cloud Storage, Amazon Web
