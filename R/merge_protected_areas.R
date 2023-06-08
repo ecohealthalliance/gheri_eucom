@@ -1,34 +1,78 @@
-#' Function to merge protected area sf objects
+#' Function to merge protected areas sf objects
 #'
 #'
 #' @title merge_protected_areas
-#' @param 
+#' @param arm0 sf object
+#' @param arm1 sf object
+#' @param arm2 sf object
+#' @param aze0 sf object
+#' @param aze1 sf object
+#' @param aze2 sf object
+#' @param geo0 sf object
+#' @param geo1 sf object
+#' @param geo2 sf object
 #'
-#' @return spatvect with all protected areas merged into one object
+#' @return spatvect with all protected areas merged together into one file
 #' 
+#' @example merge_protected_areas(protect_area_arm_data0, protect_area_arm_data1, protect_area_arm_data2,
+                                # protect_area_aze_data0, protect_area_aze_data1, protect_area_aze_data2,
+                                # protect_area_geo_data0, protect_area_geo_data1, protect_area_geo_data2)
 #' 
 
 
-# There should be a way to edit this function to be more generic where you don't have to specify the exact number
-# of shapes, but I don't know how to do that at the moment.
-merge_protected_areas <- function(){
-  areas <- c("protect_area_arm_data0", "protect_area_arm_data1", "protect_area_arm_data2",
-             "protect_area_aze_data0", "protect_area_aze_data1", "protect_area_aze_data2",
-             "protect_area_geo_data0", "protect_area_geo_data1", "protect_area_geo_data2")
+merge_protected_areas <- function(arm0, arm1, arm2, aze0, aze1, aze2, geo0, geo1, geo2){
+  
+  # get list of all protected area filenames
+  areas <- c("arm0", "arm1", "arm2", "aze0", "aze1", "aze2", "geo0", "geo1", "geo2")
   
   for (area_name in areas) {
     assign(area_name, terra::vect(get(area_name)))
   }
   
-  cauc_protect <- terra::union(protect_area_arm_data0 + protect_area_arm_data1 + protect_area_arm_data2 +
-                                 protect_area_aze_data0 + protect_area_aze_data1 + protect_area_aze_data2 +
-                                 protect_area_geo_data0 + protect_area_geo_data1 + protect_area_geo_data2)
+  cauc_protect <- terra::union(arm0 + arm1 + arm2 + aze0 + aze1 + aze2 + geo0 + geo1 + geo2)
   
   return(cauc_protect)
 }
 
+#merged_cauc <- merge_protected_areas(protect_area_arm_data0, protect_area_arm_data1, protect_area_arm_data2,
+#                                     protect_area_aze_data0, protect_area_aze_data1, protect_area_aze_data2,
+#                                     protect_area_geo_data0, protect_area_geo_data1, protect_area_geo_data2)
+
+
+
+
+
+
+
+#merge_protected_areas <- function(arm0, arm1, arm2, aze0, aze1, aze2, geo0, geo1, geo2){
+  
+  # get list of all protected area filenames
+ # areas <- c("protect_area_arm_data0", "protect_area_arm_data1", "protect_area_arm_data2",
+  #           "protect_area_aze_data0", "protect_area_aze_data1", "protect_area_aze_data2",
+   #          "protect_area_geo_data0", "protect_area_geo_data1", "protect_area_geo_data2")
+  
+  #for (area_name in areas) {
+  #  assign(area_name, terra::vect(get(area_name)))
+  #}
+  
+  #cauc_protect <- terra::union(protect_area_arm_data0 + protect_area_arm_data1 + protect_area_arm_data2 +
+   #                              protect_area_aze_data0 + protect_area_aze_data1 + protect_area_aze_data2 +
+    #                             protect_area_geo_data0 + protect_area_geo_data1 + protect_area_geo_data2)
+  
+  #return(cauc_protect)
+#}
+
 #protect_area_caucasus <- merge_protected_areas()
 #terra::plot(protect_area_caucasus)
+
+
+
+
+
+
+
+
+
 
 
 
