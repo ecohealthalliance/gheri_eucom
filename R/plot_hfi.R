@@ -47,7 +47,7 @@ Georgia", x=0.05,  y=0.75, hjust=0, gp=gpar(col="black", fontsize=10)))
 }
 
 # HFI 2000 data
-plot_hfi(hfi_2000_caucasus, caucasus_provinces, georgia_provinces)
+#plot_hfi(hfi_2000_caucasus, caucasus_provinces, georgia_provinces)
 # HFI 2018 data
-plot_hfi(hfi_2018_caucasus, caucasus_provinces, georgia_provinces)
+#plot_hfi(hfi_2018_caucasus, caucasus_provinces, georgia_provinces)
 
