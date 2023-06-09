@@ -67,7 +67,13 @@ data_input_targets <- tar_plan(
   #                                                                                  full.names = TRUE),
   #                                                                       #filename = "data/worldcov.vrt",
   #                                                                       overwrite = TRUE))),
-   
+  targets::tar_target(world_land_cover_vrt,
+                      terra::wrap({
+                        files <- list.files(here("raw_data/ESA_WorldCover_10m_2021_v200_60deg_macrotile_N30E000"), full.names = TRUE)
+                        
+                        vrt_file <- file.path(here(), "world_land_cover.vrt")
+                        
+                        world_land_cover_vrt <- terra::vrt(files, vrt_file, overwrite=TRUE)})),
    
   # 5.) Read in World Elevation data
   # Use the elevatr package, which currently provides access to elevation data 
@@ -153,8 +159,17 @@ data_processing_targets <- tar_plan(
 #Western Asia Background countries
   tar_target(western_asia_crop,
              get_western_asia_background(world_countries, terra::rast(chicken_caucasus))),
-  
-  
+
+#Landcover data
+#tar_target(land_cover_vrt_westasia, 
+#           terra::wrap(crop_landcover(world_land_cover_vrt, western_asia_crop))),
+
+tar_target(land_cover_westasia,
+           crop_landcover(world_land_cover_vrt, western_asia_crop)),
+
+
+#world_land_cover_vrt_wa <- terra::crop(world_land_cover_vrt, western_asia_crop)  
+
 #GLW Data
   # Chicken data (GLW) crop and mask
   tar_target(chicken_caucasus, 
@@ -198,6 +213,8 @@ data_processing_targets <- tar_plan(
   # HFI 2000  crop and mask (different crs than caucasus_provinces, so slightly different pre-processing)
   tar_target(hfi_2000_caucasus,
              terra::wrap(get_cropped_hfi(caucasus_provinces, HFI_2000_data))),
+  #tar_target(hfi_2000_western_asia,
+          # terra::wrap(get_cropped_hfi(western_asia_crop, HFI_2000_data))), Actually think these will stand better just as country of georgia
   # HFI 2018 crop and mask (different crs than caucasus_provinces, so slightly different pre-processing)
   tar_target(hfi_2018_caucasus,
              terra::wrap(get_cropped_hfi(caucasus_provinces, HFI_2018_data))),
