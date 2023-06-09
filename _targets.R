@@ -19,9 +19,16 @@ data_input_targets <- tar_plan(
   # 1.) Read in official administrative boundary data (admin level 1 and 0) directly from rnaturalearth package
    tar_target(caucasus_provinces, 
               get_country_province(c("Armenia", "Azerbaijan", "Georgia"))),
-   tar_target(armenia_provinces, get_country_province("Armenia")),
-   tar_target(azerbaijan_provinces, get_country_province("Azerbaijan")),
-   tar_target(georgia_provinces, get_country_province("Georgia")),
+   tar_target(armenia_provinces,
+              get_country_province("Armenia")),
+   tar_target(azerbaijan_provinces,
+              get_country_province("Azerbaijan")),
+   tar_target(georgia_provinces,
+              get_country_province("Georgia")),
+  #tar_target(western_asia,
+  #            get_country_province(c("Armenia", "Azerbaijan", "Georgia", "Turkey", "Iran", "Russia"))),
+   tar_target(world_countries,
+              ne_countries()),
    
   # 2.) Read in unofficial administrative boundary data (admin level 2 e.g., towns)
   # Manually download from HDX humdata.org and save in folder "raw_data"
@@ -58,10 +65,10 @@ data_input_targets <- tar_plan(
   # targets::tar_target(name = world_landcover_data, command = terra::wrap(terra::vrt(list.files(here("raw_data/ESA_WorldCover_10m_2021_v200_60deg_macrotile_N30E000"),
   #                                                                                  pattern = "tif$",
   #                                                                                  full.names = TRUE),
-  #                                                                       filename = "data/worldcov.vrt",
+  #                                                                       #filename = "data/worldcov.vrt",
   #                                                                       overwrite = TRUE))),
-  # 
-  # 
+   
+   
   # 5.) Read in World Elevation data
   # Use the elevatr package, which currently provides access to elevation data 
   # from AWS Open Data Terrain Tiles and the Open Topography Global
@@ -143,6 +150,11 @@ data_input_targets <- tar_plan(
 ### DATA PROCESSING
 data_processing_targets <- tar_plan(
 
+#Western Asia Background countries
+  tar_target(western_asia_crop,
+             get_western_asia_background(world_countries, terra::rast(chicken_caucasus))),
+  
+  
 #GLW Data
   # Chicken data (GLW) crop and mask
   tar_target(chicken_caucasus, 
@@ -175,6 +187,7 @@ data_processing_targets <- tar_plan(
   summed_livestock_georgia = terra::wrap(sum_GLW_data(georgia_provinces)),
   summed_livestock_armenia = terra::wrap(sum_GLW_data(armenia_provinces)),
   summed_livestock_azerbaijan = terra::wrap(sum_GLW_data(azerbaijan_provinces)),
+  summed_livestock_western_asia = terra::wrap(sum_GLW_data(western_asia_crop)),
   # Aggregate GLW data (I think can now be deleted)
   #summed_livestock_caucasus = terra::wrap(sum_GLW_data(caucasus_provinces)),
   #summed_livestock_georgia = terra::wrap(sum_GLW_data(georgia_provinces)),
@@ -198,10 +211,13 @@ data_processing_targets <- tar_plan(
 
 #Mammal richness
   # Calculate from IUCN data
-  mammal_rich = terra::wrap(calc_mammal_rich(mammal_data = mammal_data, 
+  mammal_rich_caucasus = terra::wrap(calc_mammal_rich(mammal_data = mammal_data, 
                                              template_rast = chicken_caucasus, 
                                              crop_by_obj = caucasus_provinces)),
-  
+  mammal_rich_western_asia = terra::wrap(calc_mammal_rich(mammal_data = mammal_data, 
+                                           template_rast = chicken_caucasus, 
+                                           crop_by_obj = western_asia_crop)),  
+
 #World population
   # crop and mask
   tar_target(caucasus_pop, 
@@ -212,6 +228,15 @@ data_processing_targets <- tar_plan(
              terra::wrap(crop_mask_rast(world_pop_data, armenia_provinces))),
   tar_target(azerbaijan_pop, 
              terra::wrap(crop_mask_rast(world_pop_data, azerbaijan_provinces))),
+tar_target(western_asia_pop, 
+           terra::wrap(crop_mask_rast(world_pop_data, western_asia_crop))),
+
+#World landcover
+# crop and mask
+# tar_target(caucasus_landcover, 
+#           terra::wrap(crop_mask_rast(world_landcover_data, caucasus_provinces))),
+
+
 )
 
 
