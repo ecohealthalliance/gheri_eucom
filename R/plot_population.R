@@ -47,6 +47,6 @@ Georgia", x=0.06,  y=0.73, hjust=0, gp=gpar(col="black", fontsize=10)))
 
 }
 
-plot_human_pop(western_asia_pop, western_asia_crop, georgia_provinces)
+#plot_human_pop(western_asia_pop, western_asia_crop, georgia_provinces)
 
 
