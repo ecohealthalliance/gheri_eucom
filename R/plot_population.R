@@ -1,55 +1,52 @@
-#' Functions to plot GLW livestock data
+#' Function to plot human population data
 #'
 #'
-#' @title plot_livestock
-
-#' @param summed_livestock_caucasus aggregation of GLW data file as packedspatraster
-#' @param armenia_provinces sf object to provide outline of admin1 boundries for Armenia
-#' @param armenia_provinces sf object to provide outline of admin1 boundries for Azerbaijan
-#' @param georgia_provinces sf object to provide outline of admin1 boundries for Georgia
+#' @title plot_human_pop
 #'
 #' 
 #' @examples
-#' plot_livestock_caucasus(summed_livestock, armenia_provinces, azerbaijan_provinces, georgia_provinces)
+#' 
 #' 
 #' 
 
-plot_pop_country <- function(country_pop, country_provinces){
-  # 1.) rast to unpack packedspatraster
-  country_pop_rast <- terra::rast(country_pop)
+plot_human_pop <- function(western_asia_pop, western_asia_crop, georgia_provinces){
   
-  # 2.) Create scale
-  population_scale <- scale_fill_viridis_c(limits = c(0,17000),
+  # 1.) rast to unpack packedspatraster
+  western_asia_pop_spatrast <- terra::rast(western_asia_pop)
+  
+  # 2.) Create scale fill
+  pop_scale <- scale_fill_viridis(#palette = "Spectral",
+                                    limits = c(0,30462),
                                            option = "H",  
                                            na.value = "transparent",
-                                           name = "Number of people",
-                                           breaks = c(5000, 10000, 15000))
+                                           name = "Number of
+people",
+                                           breaks = c(10000, 20000, 30000))
   
-  # 3.) Create georgia, armenia, and azerbaijan labels
+  # 3.) Create country labels
   label_georgia <- grobTree(textGrob("Regions of
-Georgia", x=0.05,  y=0.75, hjust=0, gp=gpar(col="black", fontsize=10)))
-  
-  label_armenia <- grobTree(textGrob("Regions of
-Armenia", x=0.3,  y=0.25, hjust=0, gp=gpar(col="#5a5a5a", fontsize=10)))
-  
-  label_azerbaijan <- grobTree(textGrob("Regions of
-Azerbaijan", x=0.84,  y=0.6, hjust=0, gp=gpar(col="#5a5a5a", fontsize=10)))
+Georgia", x=0.06,  y=0.73, hjust=0, gp=gpar(col="black", fontsize=10)))
+  label_armenia <- grobTree(textGrob("Armenia", x=0.39,  y=0.5, hjust=0, gp=gpar(col="white", fontsize=10)))
+  label_azerbaijan <- grobTree(textGrob("Azerbaijan", x=0.65,  y=0.4, hjust=0, gp=gpar(col="white", fontsize=10)))
+  label_russia <- grobTree(textGrob("Russia", x=0.57,  y=0.85, hjust=0, gp=gpar(col="white", fontsize=10)))
+  label_turkey <- grobTree(textGrob("Turkey", x=0.15,  y=0.28, hjust=0, gp=gpar(col="white", fontsize=10)))
   
   # 4.) Plot data
-  region_pop <- ggplot() +
-    geom_spatraster(data = country_pop_rast,
+  ggplot() +
+    geom_spatraster(data = western_asia_pop_spatrast,
                     aes(fill = ppp_2020_1km_Aggregated), interpolate = TRUE) +
-    geom_sf(data = caucasus_provinces, fill = NA, color = "#5a5a5a") +
+    geom_spatvector(data = western_asia_crop, fill = "transparent", color = "black") +
     geom_sf(data = georgia_provinces, fill = NA, color = "white") +
-    population_scale +
+    pop_scale +
     theme_void() +
     annotation_custom(label_georgia) +
     annotation_custom(label_armenia) +
-    annotation_custom(label_azerbaijan)
-  
-  return(region_pop)
-  
+    annotation_custom(label_azerbaijan) +
+    annotation_custom(label_russia) +
+    annotation_custom(label_turkey)
+
 }
-#plot_pop_country(caucasus_pop, caucasus_provinces)
+
+plot_human_pop(western_asia_pop, western_asia_crop, georgia_provinces)
 
 
