@@ -9,7 +9,7 @@
 #' 
 #' 
 
-# Ideally get ggplot once some issues sorted ot, but for now, just doing a terra::plot
+# Ideally get ggplot once some issues sorted out, but for now, just doing a terra::plot
 
 #output_landcover <- crop_landcover(world_land_cover_vrt, western_asia_crop)
 
@@ -40,6 +40,11 @@ add_legend(legend = "Sparse vegetation",  x=40.12, y= 38.85, pch = 15, col="dark
 add_legend(legend = "Snow",               x=40.12, y= 38.6, pch = 15, col="white", cex = 0.9, bty="n")
 
 }
+
+#output_landcover <- crop_landcover(world_land_cover_vrt, western_asia_crop) #need to run first (from other function)
+#plot_landcover(output_landcover, western_asia_crop)
+
+
 
 #plot_mammal_rich_terraplot <- function(mammal_rich, armenia_provinces, azerbaijan_provinces, georgia_provinces){
 # rast to unpack packedspatraster
