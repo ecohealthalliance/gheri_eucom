@@ -10,7 +10,7 @@
 #'
 #' 
 #' @examples
-#' plot_hfi(hfi_2018_caucasus, protected_area_caucasus, caucasus_provinces, georgia_provinces)
+#' plot_hfi_protected_areas(hfi_2018_caucasus, protected_area_caucasus, caucasus_provinces, georgia_provinces)
 #' 
 
 plot_hfi_protected_areas <- function(HFI_data, protected_area, caucasus_provinces, georgia_provinces){
@@ -31,13 +31,14 @@ hfi_scale <- scale_fill_viridis_c(limits = c(0,51),
 Index",
                                          breaks = c(1, 10, 20, 30, 40, 50))
 
+
 # 5.) Create georgia, armenia, and azerbaijan labels
 label_georgia <- grobTree(textGrob("Regions of
 Georgia", x=0.05,  y=0.75, hjust=0, gp=gpar(col="black", fontsize=10)))
-
 label_armenia <- grobTree(textGrob("Armenia", x=0.4,  y=0.25, hjust=0, gp=gpar(col="#5a5a5a", fontsize=10)))
-
 label_azerbaijan <- grobTree(textGrob("Azerbaijan", x=0.83,  y=0.58, hjust=0, gp=gpar(col="#5a5a5a", fontsize=10)))
+label_protected <- grobTree(textGrob("Protected
+  Areas", x=0.52,  y=0.8, hjust=0, gp=gpar(col="#ff8080", fontsize=11)))
 
 # 6.) Plot data
 region_hfi <- ggplot() +
@@ -49,7 +50,9 @@ region_hfi <- ggplot() +
   theme_void() +
   annotation_custom(label_georgia) +
   annotation_custom(label_armenia) +
-  annotation_custom(label_azerbaijan)
+  annotation_custom(label_azerbaijan) +
+  annotation_custom(label_protected)
+
 
 return(region_hfi)
 }
