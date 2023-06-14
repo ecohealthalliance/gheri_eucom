@@ -26,7 +26,7 @@ crop_landcover <- function(landcover, shape_crop){
 # when I turn line 29 into a target on the "_targets.R" file it doesn't
 # work and a "GDAL error 4" pops up
 
-output_landcover <- crop_landcover(world_land_cover_vrt, western_asia_crop)
+#output_landcover <- crop_landcover(world_land_cover_vrt, western_asia_crop)
 #terra::plot(output_landcover)
 
 
