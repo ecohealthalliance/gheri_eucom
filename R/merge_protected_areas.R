@@ -38,6 +38,26 @@ merge_protected_areas <- function(arm0, arm1, arm2, aze0, aze1, aze2, geo0, geo1
 #                                     protect_area_aze_data0, protect_area_aze_data1, protect_area_aze_data2,
 #                                     protect_area_geo_data0, protect_area_geo_data1, protect_area_geo_data2)
 
+merge_protected_areas_cntry <- function(cntry0, cntry1, cntry2){
+  
+  # get list of all protected area filenames
+  areas <- c("cntry0", "cntry1", "cntry2")
+  
+  for (area_name in areas) {
+    assign(area_name, terra::vect(get(area_name)))
+  }
+  
+  cntry_protect <- terra::union(cntry0 + cntry1 + cntry2)
+  
+  return(cntry_protect)
+}
+
+#merged_arm <- merge_protected_areas_cntry(protect_area_arm_data0, protect_area_arm_data1, protect_area_arm_data2)
+
+
+
+
+
 
 
 
