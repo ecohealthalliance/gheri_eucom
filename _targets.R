@@ -149,6 +149,13 @@ data_input_targets <- tar_plan(
   tar_file(protect_area_geo_data1, "raw_data/Protected_areas_georgia/WDPA_WDOECM_Apr2023_Public_GEO_shp_1/WDPA_WDOECM_Apr2023_Public_GEO_shp-polygons.shp"),
   tar_file(protect_area_geo_data2, "raw_data/Protected_areas_georgia/WDPA_WDOECM_Apr2023_Public_GEO_shp_2/WDPA_WDOECM_Apr2023_Public_GEO_shp-polygons.shp"),
   
+  # 10.) Read in Azerbaijan health facilities
+  # Data from https://data.humdata.org/dataset/hotosm_aze_health_facilities
+  # HOTOSM Azerbaijan Health Facilities (OpenStreetMap Export)
+  targets::tar_target(health_facility_aze,
+                    terra::wrap(terra::vect(here("raw_data/hotosm_aze_health_facilities_points_shp/hotosm_aze_health_facilities_points.shp")))),
+
+
 )
 
 
@@ -285,7 +292,9 @@ tar_target(western_asia_pop,
 # tar_target(caucasus_landcover, 
 #           terra::wrap(crop_mask_rast(world_landcover_data, caucasus_provinces))),
 
-
+#Azerbaijan health facilities
+#tar_target(health_facility_aze,
+#           terra::wrap(get_health_facility(health_facility_pt_aze))),
 )
 
 
