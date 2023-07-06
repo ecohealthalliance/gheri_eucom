@@ -14,9 +14,13 @@
 
 plot_health_facility <- function(facility){
   
-# unpack packedspatvector and drop NA values for health facilities
+# unpack packedspatvector and drop NA values and dentists for health facilities
 health_facility <- terra::unwrap(health_facility_aze) %>% 
-  tidyterra::drop_na(amenity)
+  tidyterra::drop_na(amenity) %>% 
+  tidyterra::filter(amenity == "clinic" | amenity == "doctors" | amenity == "hospital" | amenity == "pharmacy")
+
+#Fact for report (change out title to get each number)
+#health_facility %>% count(amenity == "pharmacy")
 
 # Plot data
 aze_health_facilities <- ggplot() +
