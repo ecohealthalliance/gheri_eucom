@@ -16,11 +16,12 @@ crop_landcover <- function(landcover, shape_crop){
   #unpack world_land_cover_vrt
   landcover_rast <- terra::rast(landcover)
 
-  #crop
-  landcover_crop <- terra::crop( landcover_rast, shape_crop)
+  #crop (add 'mask = TRUE' when doing a country output, not needed for whole region)
+  landcover_crop <- terra::crop( landcover_rast, shape_crop, mask = TRUE)
   
   return(landcover_crop)
   }
+
 
 # ISSUE: This code below works to test the function and quick plot, but
 # when I turn line 29 into a target on the "_targets.R" file it doesn't
@@ -28,7 +29,9 @@ crop_landcover <- function(landcover, shape_crop){
 
 #output_landcover <- crop_landcover(world_land_cover_vrt, western_asia_crop)
 #terra::plot(output_landcover)
-
+#landcover_georgia <- crop_landcover(world_land_cover_vrt, georgia_provinces)
+#landcover_armenia <- crop_landcover(world_land_cover_vrt, armenia_provinces)
+#landcover_azerbaijan <- crop_landcover(world_land_cover_vrt, azerbaijan_provinces)
 
 
 #data_path <- here("raw_data/ESA_WorldCover_10m_2021_v200_60deg_macrotile_N30E000")
