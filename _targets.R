@@ -176,6 +176,10 @@ tar_target(land_cover_westasia,
              terra::wrap(crop_mask_rast(chicken_GLW, caucasus_provinces))),
   tar_target(chicken_georgia, 
              terra::wrap(crop_mask_rast(chicken_GLW, georgia_provinces))),
+  tar_target(chicken_armenia, 
+           terra::wrap(crop_mask_rast(chicken_GLW, armenia_provinces))),
+  tar_target(chicken_azerbaijan, 
+           terra::wrap(crop_mask_rast(chicken_GLW, azerbaijan_provinces))),
   # Sheep data (GLW) crop and mask
   tar_target(sheep_caucasus, 
              terra::wrap(crop_mask_rast(sheep_GLW, caucasus_provinces))),
@@ -213,18 +217,37 @@ tar_target(land_cover_westasia,
   # HFI 2000  crop and mask (different crs than caucasus_provinces, so slightly different pre-processing)
   tar_target(hfi_2000_caucasus,
              terra::wrap(get_cropped_hfi(caucasus_provinces, HFI_2000_data))),
+  tar_target(hfi_2000_georgia,
+           terra::wrap(get_cropped_hfi(georgia_provinces, HFI_2000_data))),  
+  tar_target(hfi_2000_armenia,
+           terra::wrap(get_cropped_hfi(armenia_provinces, HFI_2000_data))),  
+  tar_target(hfi_2000_azerbaijan,
+           terra::wrap(get_cropped_hfi(azerbaijan_provinces, HFI_2000_data))),
   #tar_target(hfi_2000_western_asia,
           # terra::wrap(get_cropped_hfi(western_asia_crop, HFI_2000_data))), Actually think these will stand better just as country of georgia
   # HFI 2018 crop and mask (different crs than caucasus_provinces, so slightly different pre-processing)
   tar_target(hfi_2018_caucasus,
              terra::wrap(get_cropped_hfi(caucasus_provinces, HFI_2018_data))),
+  tar_target(hfi_2018_georgia,
+           terra::wrap(get_cropped_hfi(georgia_provinces, HFI_2018_data))),  
+  tar_target(hfi_2018_armenia,
+           terra::wrap(get_cropped_hfi(armenia_provinces, HFI_2018_data))),  
+  tar_target(hfi_2018_azerbaijan,
+           terra::wrap(get_cropped_hfi(azerbaijan_provinces, HFI_2018_data))),
 
 #Protected areas  
   # Combine protected area sf objects for each country and for the region
   targets::tar_target(protected_area_caucasus,
                       terra::wrap(merge_protected_areas(protect_area_arm_data0, protect_area_arm_data1, protect_area_arm_data2,
                                                         protect_area_aze_data0, protect_area_aze_data1, protect_area_aze_data2,
-                                                        protect_area_geo_data0, protect_area_geo_data1, protect_area_geo_data2))), # this isn't working. Is it dependent on other targets or files being loaded?
+                                                        protect_area_geo_data0, protect_area_geo_data1, protect_area_geo_data2))), # this isn't working. Is it dependent on other targets or files being loaded? Seems to be working now.
+  targets::tar_target(protected_area_armenia,
+                    terra::wrap(merge_protected_areas_cntry(protect_area_arm_data0, protect_area_arm_data1, protect_area_arm_data2))),
+  targets::tar_target(protected_area_azerbaijan,
+                    terra::wrap(merge_protected_areas_cntry(protect_area_aze_data0, protect_area_aze_data1, protect_area_aze_data2))),
+  targets::tar_target(protected_area_georgia,
+                    terra::wrap(merge_protected_areas_cntry(protect_area_geo_data0, protect_area_geo_data1, protect_area_geo_data2))),
+
 
 #Mammal richness
   # Calculate from IUCN data
@@ -234,6 +257,15 @@ tar_target(land_cover_westasia,
   mammal_rich_western_asia = terra::wrap(calc_mammal_rich(mammal_data = mammal_data, 
                                            template_rast = chicken_caucasus, 
                                            crop_by_obj = western_asia_crop)),  
+  mammal_rich_armenia = terra::wrap(calc_mammal_rich(mammal_data = mammal_data, 
+                                                        template_rast = chicken_armenia, 
+                                                        crop_by_obj = armenia_provinces)), 
+  mammal_rich_georgia = terra::wrap(calc_mammal_rich(mammal_data = mammal_data, 
+                                                   template_rast = chicken_georgia, 
+                                                   crop_by_obj = georgia_provinces)), 
+  mammal_rich_azerbaijan = terra::wrap(calc_mammal_rich(mammal_data = mammal_data, 
+                                                   template_rast = chicken_azerbaijan, 
+                                                   crop_by_obj = azerbaijan_provinces)), 
 
 #World population
   # crop and mask
