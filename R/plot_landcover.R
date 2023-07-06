@@ -11,9 +11,8 @@
 
 # Ideally get ggplot once some issues sorted out, but for now, just doing a terra::plot
 
-#output_landcover <- crop_landcover(world_land_cover_vrt, western_asia_crop)
-
-plot_landcover <- function(output_landcover, western_asia_crop){
+#output_landcover <- crop_landcover(world_land_cover_vrt, western_asia_crop) #need to run first (from other function)
+plot_landcover <- function(output_landcover, georgia_provinces){
 #Add white box to put legend over
 # Create a matrix with the coordinates of the box vertices
 coords <- matrix(c(40.17, 38.2,
@@ -25,11 +24,11 @@ coords <- matrix(c(40.17, 38.2,
 #Plot
 terra::plot(output_landcover,
             axes = FALSE)
-terra::plot(western_asia_crop$geometry,
+terra::plot(armenia_provinces$geometry,
             border = "black",
             add = TRUE)
-add_legend(legend = "Regions of
-Georgia",    x=39.5, y= 42.6, pch = 15, col="#99cc99", cex = 0.9, bty="n")
+#add_legend(legend = "Regions of
+#Georgia",    x=39.5, y= 42.6, pch = 15, col="#99cc99", cex = 0.9, bty="n")
 box <- polygon(coords,  col = alpha("gray", 0.8), border='gray')
 add_legend(legend = "Tree cover",         x=40.12, y= 40.1, pch = 15, col="darkgreen", cex = 0.9, bty="n")
 add_legend(legend = "Grassland",          x=40.12, y= 39.85, pch = 15, col="yellow", cex = 0.9, bty="n")
@@ -41,11 +40,22 @@ add_legend(legend = "Snow",               x=40.12, y= 38.6, pch = 15, col="white
 
 }
 
-#output_landcover <- crop_landcover(world_land_cover_vrt, western_asia_crop) #need to run first (from other function)
+
 #plot_landcover(output_landcover, western_asia_crop)
+#plot_landcover(landcover_armenia, armenia_provinces)
 
 
 
+
+
+
+
+
+
+
+
+
+### DON'T NEED ANYMORE
 #plot_mammal_rich_terraplot <- function(mammal_rich, armenia_provinces, azerbaijan_provinces, georgia_provinces){
 # rast to unpack packedspatraster
 #mammal_rich_rast <- terra::rast(mammal_rich)

@@ -13,11 +13,14 @@
 #' 
 #' 
 
+#Adjust function and line of code below function to plot based on each country (georgia, armenia, azerbaijan), and if
+#you're doing the region as a whole vs just one country.
+#Need to comment out text and adjjust label positions
 
-plot_mammal_rich <- function(mammal_rich_western_asia, western_asia_crop, caucasus_provinces, georgia_provinces){
+plot_mammal_rich <- function(mammal_rich_georgia, location, caucasus_provinces, georgia_provinces){
 
   # 1.)  rast to unpack packedspatraster
-  mammal_rich_spatrast <- terra::rast(mammal_rich_western_asia)
+  mammal_rich_spatrast <- terra::rast(mammal_rich_georgia)
   
   #2.) crop western asia background countries to extent of caucasus_provinces
   #world_countries_vect <- vect(world_countries)
@@ -33,32 +36,32 @@ species",
                                          breaks = c(1, 76))
   
   # 3.) Create country labels
-  label_georgia <- grobTree(textGrob("Regions of
-Georgia", x=0.06,  y=0.73, hjust=0, gp=gpar(col="black", fontsize=10)))
-  label_armenia <- grobTree(textGrob("Armenia", x=0.42,  y=0.37, hjust=0, gp=gpar(col="#5a5a5a", fontsize=10)))
-  label_azerbaijan <- grobTree(textGrob("Azerbaijan", x=0.65,  y=0.4, hjust=0, gp=gpar(col="#5a5a5a", fontsize=10)))
-  label_russia <- grobTree(textGrob("Russia", x=0.57,  y=0.85, hjust=0, gp=gpar(col="#5a5a5a", fontsize=10)))
-  label_turkey <- grobTree(textGrob("Turkey", x=0.15,  y=0.28, hjust=0, gp=gpar(col="#5a5a5a", fontsize=10)))
+#  label_georgia <- grobTree(textGrob("Regions of
+#Georgia", x=0.06,  y=0.73, hjust=0, gp=gpar(col="black", fontsize=10)))
+#label_armenia <- grobTree(textGrob("Armenia", x=0.37,  y=0.58, hjust=0, gp=gpar(col="white", fontsize=10)))
+ #label_azerbaijan <- grobTree(textGrob("Azerbaijan", x=0.86,  y=0.32, hjust=0, gp=gpar(col="black", fontsize=10)))
+  #label_russia <- grobTree(textGrob("Russia", x=0.57,  y=0.85, hjust=0, gp=gpar(col="#5a5a5a", fontsize=10)))
+  #label_turkey <- grobTree(textGrob("Turkey", x=0.15,  y=0.28, hjust=0, gp=gpar(col="#5a5a5a", fontsize=10)))
   
   # 4.) Plot data
   region_mammal <- ggplot() +
     geom_spatraster(data = mammal_rich_spatrast,
                     aes(fill = richness), interpolate = TRUE) +
-    geom_spatvector(data = western_asia_crop, fill = "transparent", color = "#e6e6e6") +
-    geom_sf(data = caucasus_provinces, fill = NA, color = "transparent") +
-    geom_sf(data = georgia_provinces, fill = NA, color = "black") +
+    geom_spatvector(data = location, fill = "transparent", color = "gray") +
+    #geom_sf(data = caucasus_provinces, fill = NA, color = "transparent") +
+    geom_sf(data = georgia_provinces, fill = NA, color = "#666666") +
     consistent_scale +
-    theme_void() +
-    annotation_custom(label_georgia) +
-    annotation_custom(label_armenia) +
-    annotation_custom(label_azerbaijan) +
-    annotation_custom(label_russia) +
-    annotation_custom(label_turkey) 
+    theme_void() 
+    #annotation_custom(label_georgia) +
+    #annotation_custom(label_armenia) +
+    #annotation_custom(label_azerbaijan) 
+    #annotation_custom(label_russia) +
+    #annotation_custom(label_turkey) 
   
   return(region_mammal)
 }
 
-#plot_mammal_rich(mammal_rich_western_asia, western_asia_crop, caucasus_provinces, georgia_provinces)
+#plot_mammal_rich(mammal_rich_georgia, georgia_provinces, georgia_provinces, georgia_provinces)
 
 
 
