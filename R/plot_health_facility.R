@@ -7,8 +7,6 @@
 #'
 #' @return Spatvector
 #' 
-#' @examples
-#' 
 #' 
 #' 
 

@@ -8,7 +8,6 @@
 suppressPackageStartupMessages(source("packages.R"))
 for (f in list.files(here::here("R"), full.names = TRUE)) source (f)
 
-
 # Groups of targets ------------------------------------------------------------
 
 ### DATA INPUT
@@ -28,19 +27,6 @@ data_input_targets <- tar_plan(
    tar_target(world_countries,
               ne_countries()),
    
-  # 2.) Read in unofficial administrative boundary data (admin level 2 e.g., towns)
-  # Manually download from HDX humdata.org and save in folder "raw_data"
-  # Armenia data at https://data.humdata.org/dataset/geoboundaries-admin-boundaries-for-armenia
-  # file name "geoBoundaries-ARM-ADM2-all"
-  #targets::tar_target(name = armenia_towns, command = st_read(here("raw_data/geoBoundaries-ARM-ADM2-all/geoBoundaries-ARM-ADM2.shp"))),
-  # Azerbaijan data at https://data.humdata.org/dataset/geoboundaries-admin-boundaries-for-azerbaijan
-  # file name "geoBoundaries-AZE-ADM2-all"
-  #targets::tar_target(name = azerbaijan_towns, command = st_read(here("raw_data/geoBoundaries-AZE-ADM2-all/geoBoundaries-AZE-ADM2.shp"))),
-  # Georgia data at https://data.humdata.org/dataset/geoboundaries-admin-boundaries-for-georgia
-  # file name "geoBoundaries-GEO-ADM2-all"
-  #targets::tar_target(name = georgia_towns, command = st_read(here("raw_data/geoBoundaries-GEO-ADM2-all/geoBoundaries-GEO-ADM2.shp"))),
-  
-  
   # 3.) Read in World Population data 
   # WorldPop Population Counts: Population 2020
   # https://www.worldpop.org/geodata/summary?id=24777
@@ -73,15 +59,7 @@ data_input_targets <- tar_plan(
                         
                         world_land_cover_vrt <- terra::vrt(files, vrt_file, overwrite=TRUE)})),
    
-  # 5.) Read in World Elevation data
-  # Use the elevatr package, which currently provides access to elevation data 
-  # from AWS Open Data Terrain Tiles and the Open Topography Global
-  # datasets API for raster digital elevation models. 
-  # read in elevation data based on a location (e.g., country_provinces)
-  #targets::tar_target(name = world_elevation_data, command = get_elev_raster(caucasus_provinces, z = 9)), # %>% 
-    #terra::rast(world_elevation_data)   # convert raster to SpatRaster. This isn't working now, though?
-  
-  
+
   # 6.) Read in FAO Gridded Livestock of the World 2015 data
   # https://dataverse.harvard.edu/dataverse/glw_4
   # downloaded manually and saved in raw_data
@@ -157,7 +135,6 @@ data_input_targets <- tar_plan(
 )
 
 
-
 ### DATA PROCESSING
 data_processing_targets <- tar_plan(
 
@@ -212,11 +189,7 @@ tar_target(land_cover_westasia,
   summed_livestock_armenia = terra::wrap(sum_GLW_data(armenia_provinces)),
   summed_livestock_azerbaijan = terra::wrap(sum_GLW_data(azerbaijan_provinces)),
   summed_livestock_western_asia = terra::wrap(sum_GLW_data(western_asia_crop)),
-  # Aggregate GLW data (I think can now be deleted)
-  #summed_livestock_caucasus = terra::wrap(sum_GLW_data(caucasus_provinces)),
-  #summed_livestock_georgia = terra::wrap(sum_GLW_data(georgia_provinces)),
-  #summed_livestock_armenia = terra::wrap(sum_GLW_data(armenia_provinces)),
-  #summed_livestock_azerbaijan = terra::wrap(sum_GLW_data(azerbaijan_provinces)),
+
   
 #Human Footprint Index
   # HFI 2000  crop and mask (different crs than caucasus_provinces, so slightly different pre-processing)
@@ -228,9 +201,7 @@ tar_target(land_cover_westasia,
            terra::wrap(get_cropped_hfi(armenia_provinces, HFI_2000_data))),  
   tar_target(hfi_2000_azerbaijan,
            terra::wrap(get_cropped_hfi(azerbaijan_provinces, HFI_2000_data))),
-  #tar_target(hfi_2000_western_asia,
-          # terra::wrap(get_cropped_hfi(western_asia_crop, HFI_2000_data))), Actually think these will stand better just as country of georgia
-  # HFI 2018 crop and mask (different crs than caucasus_provinces, so slightly different pre-processing)
+  
   tar_target(hfi_2018_caucasus,
              terra::wrap(get_cropped_hfi(caucasus_provinces, HFI_2018_data))),
   tar_target(hfi_2018_georgia,
@@ -296,61 +267,6 @@ tar_target(western_asia_pop,
 )
 
 
-### ANALYSIS
-analysis_targets <- tar_plan(
-  ## Example analysis target/s; delete and replace with your own analysis
-  ## targets
-
-)
-
-### OUTPUTS
-outputs_targets <- tar_plan(
-  # THESE TARGETS ARE NOT BEING MADE, AND I'M NOT SURE WHY
-   
-  # Plot of mammal richness for Caucasus provinces, with an emphasis on Georgia
-  tar_target(plot_mammal_caucasus, plot_mammal_rich(mammal_rich, caucasus_provinces, georgia_provinces)),
-  # Plot of human population for Caucasus provinces, with an emphasis on Georgia
-  tar_target(plot_caucasus_pop, plot_pop_country(caucasus_pop, caucasus_provinces)),
-  
-  ## This is a placeholder for any targets that produces outputs such as
-  ## tables of model outputs, plots, etc. Delete or keep empty if you will not
-  ## produce any of these types of outputs
-)
-
-
-### REPORT
-report_targets <- tar_plan(
-  ## Example Rmarkdown report target/s; delete and replace with your own
-  ## Rmarkdown report target/s
-
-  # tar_render(
-  #   example_report, path = "reports/example_report.Rmd",
-  #   output_dir = "outputs", knit_root_dir = here::here()
-  # )
-)
-
-### DEPLOY TARGETS
-deploy_targets <- tar_plan(
-  ## This is a placeholder for any targets that are meant to deploy reports or
-  ## any outputs externally e.g., website, Google Cloud Storage, Amazon Web
-  ## Services buckets, etc. Delete or keep empty if you will not perform any
-  ## deployments. The aws_s3_upload function requires AWS credentials to be loaded
-  ## but will print a warning and do nothing if not
-
-  # html_files = containerTemplateUtils::get_file_paths(tar_obj = example_report,
-  #                                                     pattern = "\\.html$"),
-  # uploaded_report = containerTemplateUtils::aws_s3_upload(html_files,
-  #                                                       bucket = Sys.getenv("AWS_BUCKET"),
-  #                                                       error = FALSE,
-  #                                                       file_type = "html"),
-  # email_updates=
-  #   containerTemplateUtils::send_email_update(
-  #     to = strsplit(Sys.getenv("EMAIL_RECIPIENTS"),";")[[1]],
-  #     from = Sys.getenv("EMAIL_SENDER"),
-  #     project_name = "My Project",
-  #     attach = TRUE
-  #   )
-)
 
 # List targets -----------------------------------------------------------------
 

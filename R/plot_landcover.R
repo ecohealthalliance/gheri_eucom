@@ -9,8 +9,6 @@
 #' 
 #' 
 
-# Ideally get ggplot once some issues sorted out, but for now, just doing a terra::plot
-
 #output_landcover <- crop_landcover(world_land_cover_vrt, western_asia_crop) #need to run first (from other function)
 plot_landcover <- function(output_landcover, georgia_provinces){
 #Add white box to put legend over
@@ -53,7 +51,7 @@ add_legend(legend = "Snow",               x=40.12, y= 38.6, pch = 15, col="white
 
 
 
-
+# Ideally get ggplot once some issues sorted out, but for now, just doing a terra::plot
 
 ### DON'T NEED ANYMORE
 #plot_mammal_rich_terraplot <- function(mammal_rich, armenia_provinces, azerbaijan_provinces, georgia_provinces){
