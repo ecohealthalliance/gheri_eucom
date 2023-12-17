@@ -8,7 +8,7 @@
 
 <!-- badges: end -->
 
-This repository is used to map global data sets on drivers of zoonotic disease spillover, emergence, and spread downscaled to the South Caucasus region for presentation and comparison across countries.
+This repository is used to map global on drivers of zoonotic disease spillover, emergence, and spread downscaled to the South Caucasus region for presentation and comparison across countries.
 
 The repo uses a containerised R workflow built on the `targets` framework, made portable using `renv`.
 
