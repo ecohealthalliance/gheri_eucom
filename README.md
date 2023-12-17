@@ -29,3 +29,7 @@ Maps generated through this repo are embedded in in-depth country reports that t
 -   Azerbaijan report (English and Azerbaijani): <https://zenodo.org/doi/10.5281/zenodo.10048711>
 
 -   Georgia report (English and Georgian): <https://zenodo.org/doi/10.5281/zenodo.10048349>
+
+## Funder
+
+This work was made possible through the support of the Uniformed Services University of the Health Sciences (USU) (Award number HU00012010031 -- *Strengthening Multisectoral Approaches to Biodefense and Biosurveillance in the Caucasus*). The information or content and conclusions do not necessarily represent the official position or policy of, nor should any official endorsement be inferred on the part of, USU, the Department of Defense, or the U.S. Government.
