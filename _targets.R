@@ -8,8 +8,6 @@
 suppressPackageStartupMessages(source("packages.R"))
 for (f in list.files(here::here("R"), full.names = TRUE)) source (f)
 
-# Set build options ------------------------------------------------------------
-
 
 # Groups of targets ------------------------------------------------------------
 
